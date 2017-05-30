@@ -7,15 +7,17 @@ var list = new InfoList("list", width, height/3);
 var pie = new PieGraph("pieGraph", (width/3)-10, height/3);
 var scatterplot = new Scatterplot("scatterplot", (width/3)-10, height/3);
 var line = new LineGraph("lineGraph", (width/3)-10, height/3);
-console.log(1233125);
 var dataset = getData(filePath);
+
 d3.json("world-topo-min.json", function(d){
-	console.log(d[0]);
-	map.setData(d);
+	map.setData(topojson.feature(d,d.objects.countries).features);
 })
+
+pie.setData("pieTest.csv");
+	  
 //map.setData(dataset);
 list.setData(dataset);
-pie.setData(dataset);
+//pie.setData(dataset);
 scatterplot.setData(dataset);
 line.setData(dataset);
 
