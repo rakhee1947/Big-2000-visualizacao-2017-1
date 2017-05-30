@@ -1,12 +1,12 @@
-var width = window.innerWidth-30;
-var height = window.innerHeight-70;
+var width = window.innerWidth-100;
+var height = window.innerHeight-50;
 var filePath = "";
 
-var map = new WorldMap("map", (14/19)*width, (3/9)*height);
-var pie = new PieGraph("pieGraph", (2/9)*width, (3/9)*height);
-var list = new InfoList("list", width, (2/9)*height);
-var scatterplot = new Scatterplot("scatterplot", (width/3)+100, (2/9)*height);
-var line = new LineGraph("lineGraph", (width/3)+100, (2/9)*height);
+var map = new WorldMap("map", width, height-50);
+var list = new InfoList("list", width, (height/2)-50);
+var pie = new PieGraph("pieGraph", width/3, height/2);
+var scatterplot = new Scatterplot("scatterplot", (width/3), height/2);
+var line = new LineGraph("lineGraph", (width/3), height/2);
 
 var dataset = getData(filePath);
 

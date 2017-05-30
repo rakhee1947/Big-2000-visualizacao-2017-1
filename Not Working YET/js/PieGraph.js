@@ -1,23 +1,15 @@
 class PieGraph {
 	constructor(id, w, h){
 		this.canvas = d3.select("#"+id)
+			.attr("class", "container")
 			.attr("width",w)
 			.attr("height",h)
-			.attr("transform","translate(100,90)");
+			.attr("transform","translate(50,60)");
 		this.id = id;
 		this.w = w;
 		this.h = h;
 		this.r = Math.min(w,h)/2;
 		this.g = this.canvas.append("g").attr("transform", "translate("+w/2+","+h/2+")");
-
-		var borderPath = this.canvas.append("rect")
-			.attr("x", 0)
-			.attr("y", 0)
-			.attr("height", h)
-			.attr("width", w)
-			.style("stroke", "black")
-			.style("fill", "none")
-			.style("stroke-width", 3);
 	}
 	
 	setData(data){

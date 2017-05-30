@@ -7,7 +7,7 @@ class WorldMap {
 			.attr("class", "container")
 			.attr("width",w-75)
 			.attr("height",h)
-			.attr("transform","translate(50,90)")
+			.attr("transform","translate(50,60)")
 			.call(zoom);
 		this.id = id;
 		this.w = w;
