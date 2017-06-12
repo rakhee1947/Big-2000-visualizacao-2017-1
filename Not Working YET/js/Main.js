@@ -4,9 +4,9 @@ var filePath = "";
 
 var map = new WorldMap("map", width, height-50);
 var list = new InfoList("list", width, (height/2)-50);
-var pie = new PieGraph("pieGraph", width/3, height/2);
-var scatterplot = new Scatterplot("scatterplot", (width/3), height/2);
-var line = new LineGraph("lineGraph", (width/3), height/2);
+var pie = new PieGraph("pieGraph", ((width/3)-30), height/2);
+var scatterplot = new Scatterplot("scatterplot", ((width/3)-30), height/2);
+var line = new LineGraph("lineGraph", ((width/3)-30), height/2);
 
 var dataset = getData(filePath);
 

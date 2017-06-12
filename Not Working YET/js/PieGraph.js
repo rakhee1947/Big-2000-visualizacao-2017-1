@@ -4,12 +4,13 @@ class PieGraph {
 			.attr("class", "container")
 			.attr("width",w)
 			.attr("height",h)
-			.attr("transform","translate(50,60)");
+			.attr("x",0)
+			.attr("transform","translate(0,60)");
 		this.id = id;
 		this.w = w;
 		this.h = h;
 		this.r = Math.min(w,h)/2;
-		this.g = this.canvas.append("g").attr("transform", "translate("+w/2+","+h/2+")");
+		this.g = this.canvas.append("g").attr("transform", "translate("+((w/2)+3)+","+((h/2)+5	)+")");
 	}
 	
 	setData(data){

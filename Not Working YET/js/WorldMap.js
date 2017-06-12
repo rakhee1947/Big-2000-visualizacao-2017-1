@@ -5,9 +5,9 @@ class WorldMap {
 			.on("zoom",zoomed);
 		this.canvas = d3.select("#"+id)
 			.attr("class", "container")
-			.attr("width",w-75)
+			.attr("width",w-20)
 			.attr("height",h)
-			.attr("transform","translate(50,60)")
+			.attr("transform","translate(0,60)")
 			.call(zoom);
 		this.id = id;
 		this.w = w;
