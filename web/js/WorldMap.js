@@ -19,7 +19,7 @@ class WorldMap {
 			.attr("class", "tooltip hidden");
 
 		this.cScale = d3.scaleLinear()
-			.range(["#e5f5f9", "#99d8c9", "#2ca25f"]);
+			.range(["#0f0", "#00f"]);
 			
 		this.projection = d3.geoMercator().translate([w/2,height/2]).scale(width / 2 / Math.PI);
 		this.path = d3.geoPath().projection(this.projection);
@@ -30,22 +30,69 @@ class WorldMap {
 		}
 	}
 
-	setData(data){
+	setMap(data){
 		var that = this;
-		this.cScale
-		//	.domain([0,d3.max(data,function(d){return d.rank;})+20]);
-			.domain([0,100]);
+				
+		this.cScale.domain([0,that.maxScore]);
 
 		var country = this.canvas.selectAll(".country").data(data);
 		country.enter()
 			.insert("path")
 			.attr("class", "country")
 			.attr("d",that.path)
-			.attr("id", function(d,i){return d.id;})
-			.style("fill",function(d){return that.cScale(Math.random()*100);})
+			.attr("id", function(d,i){return d.properties.name;})
+			.style("fill",function(d){
+				if(that.countries.indexOf(d.properties.name) == -1){
+					return "grey";
+				}else{
+					return that.cScale(that.score[that.countries.indexOf(d.properties.name)]);
+				}
+			})
 			//.style("fill",function(d){return that.cScale(d.rank);})
 			.on("mouseover",function(d,i){that.tooltip.classed("hidden", false).attr("style", "x:"+d3.mouse(this)[0]+"px;y:"+d3.mouse(this)[1]+"px;").html(d.properties.name);})
 			.on("mouseout",function(d){that.tooltip.classed("hidden", true);});
 			
 	}
+	
+	rankCalc(val) {
+		if(val < 10){ 
+			return 11;
+		}else if(val < 20){ 
+			return 6;
+		}else if(val < 50){ 
+			return 5;
+		}else if(val < 100){ 
+			return 4;
+		}else if(val < 200){ 
+			return 3;
+		}else if(val < 500){ 
+			return 2;
+		}else if(val < 1000){ 
+			return 2;
+		}else{ 
+			return 1;
+		}
+	}
+	
+	setData(data){
+		var that = this;
+		this.countries = [];
+		this.score = [];
+		this.maxScore = 0;
+		for (var i = 0; i < data.length; i++){
+			var a = this.countries.indexOf(data[i].country);
+			var b = this.rankCalc(data[i].rank)
+			if(a == -1){ 
+				this.countries.push(data[i].country); 
+				this.score.push(b)
+				if(b > this.maxScore){ this.maxScore = b }
+			}else{ 
+				this.score[a] += b; 
+				if(this.score[a] > this.maxScore){ this.maxScore = this.score[a]}
+			}				
+		}
+		console.log(this.countries)
+		console.log(this.score)
+	}
+
 }

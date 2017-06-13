@@ -10,9 +10,13 @@ var line = new LineGraph("lineGraph", ((width/3)-(width/50)), height/2);
 
 var dataset = getData(filePath);
 
-d3.json("world-topo-min.json", function(d){
-	map.setData(topojson.feature(d,d.objects.countries).features);
+d3.json("../json/forbes2016.json", function(d){
+	map.setData(d.customers)
 })
+d3.json("../json/world-topo-min.json", function(d){
+	map.setMap(topojson.feature(d,d.objects.countries).features);
+})
+
 
 pie.setData("pieTest.csv");
 line.setData("lineTest.csv");
