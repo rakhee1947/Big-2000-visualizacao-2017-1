@@ -33,14 +33,15 @@ class Scatterplot {
 			that.yScale.domain(d3.extent(data, function(d) { return d.sales; }));
 			that.rScale.domain(d3.extent(data, function(d) { return d.rank; }));
 
-			that.g.selectAll("circle").enter().append("circle")
+			that.g.selectAll("circle").data(data).enter().append("circle")
 				.attr("cx", function(){return that.xScale(data.profits);})
 				.attr("cy", function(){return that.yScale(data.sales);})
-				.attr("r", function(){return that.rScale(data.rank);});
+				.attr("r", function(){return that.rScale(data.rank)+1;})
+				.attr("fill", "#000");
 
 			that.g.append("g").attr("transform","translate(0,"+(that.h)+")")
 				.call(d3.axisBottom(that.xScale).ticks(5).tickFormat(d3.format("d"))).append("text")
-				.attr("fill","#000").attr("y",-6).attr("x",that.w).text("PROFITS");
+				.attr("fill","#000").attr("y",-6).attr("x",that.w-4).text("PROFITS");
 
 			that.g.append("g").call(d3.axisLeft(that.yScale)).append("text").attr("fill", "#000")
 				.attr("transform", "rotate(-90)").attr("y", 6).attr("dy", "0.71em")
