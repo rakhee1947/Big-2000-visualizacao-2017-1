@@ -21,7 +21,7 @@ scatterplot.setData("scatterplotTest.csv");
 //map.setData(dataset);
 //pie.setData(dataset);
 list.setData(dataset);
-scatterplot.setData(dataset);
+//scatterplot.setData(dataset);
 //line.setData(dataset);
 
 var disp = d3.dispatch("countrySelected");

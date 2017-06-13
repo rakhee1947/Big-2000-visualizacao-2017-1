@@ -7,15 +7,15 @@ class Scatterplot {
 			.attr("transform","translate(0,60)");
 		this.id = id;
 		
-		this.margin = {top: 20, right: 20, bottom: 25, left: 30};
+		this.margin = {top: 20, right: 20, bottom: 25, left: 50};
 		this.w = w - this.margin.left - this.margin.right;
 		this.h = h - this.margin.top - this.margin.bottom;
 		this.g = this.canvas.append("g").attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
 		
 		this.xScale = d3.scaleLinear().rangeRound([0, (this.w)]);
 		this.yScale = d3.scaleLinear().range([this.h, 0]);
-		this.rScale = d3.scaleLinear().range([0,5]);
-		this.cScale = d3.scaleLinear().range(["#e5f5f9", "#99d8c9", "#2ca25f"]);
+		this.rScale = d3.scaleLinear().range([0,4]);
+		this.cScale = d3.scaleLinear().range(["#000", "#f00"]);
 	}
 	
 	setData(data){
@@ -34,9 +34,9 @@ class Scatterplot {
 			that.rScale.domain(d3.extent(data, function(d) { return d.rank; }));
 
 			that.g.selectAll("circle").data(data).enter().append("circle")
-				.attr("cx", function(){return that.xScale(data.profits);})
-				.attr("cy", function(){return that.yScale(data.sales);})
-				.attr("r", function(){return that.rScale(data.rank)+1;})
+				.attr("cx", function(d){ return that.xScale(d.profits); })
+				.attr("cy", function(d){ return that.yScale(d.sales); })
+				.attr("r", function(d){ return that.rScale(d.rank)+1; })
 				.attr("fill", "#000");
 
 			that.g.append("g").attr("transform","translate(0,"+(that.h)+")")
