@@ -16,6 +16,7 @@ d3.json("world-topo-min.json", function(d){
 
 pie.setData("pieTest.csv");
 line.setData("lineTest.csv");
+scatterplot.setData("scatterplotTest.csv");
 
 //map.setData(dataset);
 //pie.setData(dataset);
