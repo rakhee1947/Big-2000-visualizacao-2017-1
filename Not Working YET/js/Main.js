@@ -4,9 +4,9 @@ var filePath = "";
 
 var map = new WorldMap("map", width, height-50);
 var list = new InfoList("list", width, (height/2)-50);
-var pie = new PieGraph("pieGraph", ((width/3)-30), height/2);
-var scatterplot = new Scatterplot("scatterplot", ((width/3)-30), height/2);
-var line = new LineGraph("lineGraph", ((width/3)-30), height/2);
+var pie = new PieGraph("pieGraph", ((width/3)-(width/50)), height/2);
+var scatterplot = new Scatterplot("scatterplot", ((width/3)-(width/50)), height/2);
+var line = new LineGraph("lineGraph", ((width/3)-(width/50)), height/2);
 
 var dataset = getData(filePath);
 
@@ -15,12 +15,13 @@ d3.json("world-topo-min.json", function(d){
 })
 
 pie.setData("pieTest.csv");
+line.setData("lineTest.csv");
 
 //map.setData(dataset);
 //pie.setData(dataset);
 list.setData(dataset);
 scatterplot.setData(dataset);
-line.setData(dataset);
+//line.setData(dataset);
 
 var disp = d3.dispatch("countrySelected");
 disp.on("countrySelected", function(){

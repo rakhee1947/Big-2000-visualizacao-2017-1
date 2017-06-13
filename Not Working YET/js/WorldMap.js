@@ -2,6 +2,7 @@ class WorldMap {
 	constructor(id, w, h){
 		var zoom = d3.zoom()
 			.scaleExtent([1,8])
+			.translateExtent([[-100, -100], [width + 90, height + 100]])
 			.on("zoom",zoomed);
 		this.canvas = d3.select("#"+id)
 			.attr("class", "container")
