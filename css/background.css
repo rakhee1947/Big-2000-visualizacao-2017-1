@@ -28,6 +28,12 @@
   overflow: hidden;
 }
 
+#about .textbox {
+  width: 80%;
+  align: right;
+  margin: 20px 50px;
+}
+
 #questions {
   background-color: #ffffff;
   padding-bottom: 20px;
@@ -35,17 +41,50 @@
   overflow: hidden;
 }
 
+#questions .question-list {
+  align: left;
+  margin: 20px 50px;
+}
+
+#questions .question-list li {
+  list-style-type: decimal;
+  padding: 1vh;
+}
+
 #team {
   background-color: #d3d3d3;
   padding-bottom: 20px;
   overflow: hidden;
 }
-/*
+#team .profile {
+  width: 80px;
+  height: 80px;
+  display: inline;
+  margin: 5vh 7vw;
+}
+
 #files {
-  background: url(images/bg.jpg) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  background-color: #ffffff;
+  padding-bottom: 20px;
   overflow: hidden;
-}*/
+}
+
+#files .group-files {
+  width: 80%;
+  align: center;
+  left: 50%;
+  margin: 0 0 0 10%;
+}
+
+#files .icon {
+  display: inline-block;
+  width: 30%;
+  height: 15vh;
+  text-align: center;
+  font-size: 6vh;
+}
+
+#files .icon u {
+  display: block;
+  font-size: 3vh;
+}
