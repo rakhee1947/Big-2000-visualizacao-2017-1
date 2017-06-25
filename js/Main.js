@@ -1,6 +1,6 @@
 var width = window.innerWidth-100;
 var height = window.innerHeight-50;
-var filePath = "";
+var filePath = "../json/";
 
 var map = new WorldMap("map", width, height-50);
 var list = new InfoList("list", width, (height/2)-50);
@@ -17,14 +17,14 @@ d3.json("../json/world-topo-min.json", function(d){
 	map.setMap(topojson.feature(d,d.objects.countries).features);
 })
 
-
-pie.setData("pieTest.csv");
-line.setData("lineTest.csv");
-scatterplot.setData("scatterplotTest.csv");
+pie.setData("../test/pieTest.csv");
+list.setData("../test/listTest.csv")
+scatterplot.setData("../test/scatterplotTest.csv");
+line.setData("../test/lineTest.csv");
 
 //map.setData(dataset);
 //pie.setData(dataset);
-list.setData(dataset);
+//list.setData(dataset);
 //scatterplot.setData(dataset);
 //line.setData(dataset);
 
