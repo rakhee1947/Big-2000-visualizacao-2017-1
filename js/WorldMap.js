@@ -19,11 +19,14 @@ class WorldMap {
       .attr("class", "tooltip hidden");
 
     this.cScale = d3.scaleLinear()
-      .range(["#0f0", "#00f"]);
-	
+      .range(["lightsalmon","gold","goldenrod"]);
+    this.dScale = d3.scaleLinear()
+      .range(["lightsalmon","gold","goldenrod"])
+	  .domain([0,4,8]);
+	  
     this.projection = d3.geoMercator().translate([w/2,height/2]).scale(width / 2 / Math.PI);
     this.path = d3.geoPath().projection(this.projection);
-
+		
     var that = this;
     function zoomed(){
       that.canvas.selectAll(".country").attr("transform",d3.event.transform);
@@ -32,8 +35,8 @@ class WorldMap {
 
   setMap(data){
     var that = this;
-
-    this.cScale.domain([0,that.maxScore]);
+	var maxS = Math.log(that.maxScore)/2
+    this.cScale.domain([0,maxS,(maxS*2)]);
 
     var country = this.canvas.selectAll(".country").data(data);
     country.enter()
@@ -45,12 +48,28 @@ class WorldMap {
         if(that.countries.indexOf(d.properties.name) == -1){
           return "grey";
         }else{
-          return that.cScale(that.score[that.countries.indexOf(d.properties.name)]);
+          return that.cScale(Math.log(that.score[that.countries.indexOf(d.properties.name)]));
         }
       })
       //.style("fill",function(d){return that.cScale(d.rank);})
       .on("mouseover",function(d,i){that.tooltip.classed("hidden", false).attr("style", "x:"+d3.mouse(this)[0]+"px;y:"+d3.mouse(this)[1]+"px;").html(d.properties.name);})
       .on("mouseout",function(d){that.tooltip.classed("hidden", true);});
+
+	this.canvas.append("rect").attr("fill","white").attr("x",-4).attr("y",(22.1/24)*this.h).attr("width", this.w/10).attr("height", this.h/12)
+	.attr("stroke","black").attr("stroke-width",this.w/1000).attr("rx", 6).attr("ry",6);
+	
+	for (var i = 0; i <= 8; i++){
+		if(i != 8){
+			this.canvas.append("rect").attr("x",(((i+0.3)/100)*this.w)).attr("y",(23/24)*this.h)
+			.attr("width",this.w/100).attr("height",this.h/35).attr("fill",this.dScale(i));
+		}else{
+			this.canvas.append("rect").attr("x",(((i+0.3)/100)*this.w)).attr("y",(23/24)*this.h)
+			.attr("width",this.w/100).attr("height",this.h/35).attr("fill",this.dScale(i));
+		}
+	}
+	
+	this.canvas.append("text").attr("x", (0.3/100)*this.w).attr("y",(22.8/24)*this.h)
+	.attr("font-family","Candara").attr("font-weight","bold").attr("font-size",this.h/40).text("Scale");
   }
 	
   rankCalc(val) {
