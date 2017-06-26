@@ -1,4 +1,4 @@
-class PieGraph {
+class PieChart {
 	constructor(id, w, h){
 		this.canvas = d3.select("#"+id)
 			.attr("class", "container")
