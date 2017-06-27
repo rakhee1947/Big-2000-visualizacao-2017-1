@@ -1,5 +1,5 @@
 #home {
-  background: url(../img/background.jpg) no-repeat center center fixed;
+  background: url(../img/background.png) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -12,7 +12,7 @@
 
 #home div {
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   height: 30%;
   width: 50%;
