@@ -51,12 +51,12 @@ html, body {
   margin: 20px 50px;
 }
 
-#questions #questions-list li {
+#questions-list li {
   list-style-type: decimal;
   padding: 1vh;
 }
 
-#questions #curiosities-list li {
+#curiosities-list li {
   list-style-type: circle;
   padding: 1vh;
 }
