@@ -46,13 +46,18 @@ html, body {
   overflow: hidden;
 }
 
-#questions .custom-list {
+#questions .list {
   align: left;
   margin: 20px 50px;
 }
 
-#questions .custom-list li {
+#questions #questions-list li {
   list-style-type: decimal;
+  padding: 1vh;
+}
+
+#questions #curiosities-list li {
+  list-style-type: circle;
   padding: 1vh;
 }
 
