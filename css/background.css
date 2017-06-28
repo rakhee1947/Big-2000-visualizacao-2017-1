@@ -46,12 +46,12 @@ html, body {
   overflow: hidden;
 }
 
-#questions .question-list {
+#questions .list {
   align: left;
   margin: 20px 50px;
 }
 
-#questions .question-list li {
+#questions .list li {
   list-style-type: decimal;
   padding: 1vh;
 }
