@@ -11,7 +11,7 @@ class PieChart {
     this.h = h;
     this.r = Math.min(w,h)/2;
     this.g = this.canvas.append("g")
-      .attr("transform", "translate(" + ((w/2)+3) + "," + ((h/2)+5) + ")");
+      .attr("transform", "translate(" + ((w/2)+3) + "," + ((h/2)+20) + ")");
 
     this.dataset = [];
     this.filter = "";
@@ -77,7 +77,7 @@ class PieChart {
 
     this.canvas.append("text")
       .attr("id", "pie-label")
-      .attr("transform", "translate(" + ((this.w/2)+3) + "," + ((this.h/10)+5) + ")")
+      .attr("transform", "translate(" + ((this.w/2)+3) + "," + ((this.h/15)+5) + ")")
       .attr("font-size", 12)
       .attr("font-family", "Verdana")
       .style("font-weight","Bold")
