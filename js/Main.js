@@ -4,10 +4,15 @@ var height = window.innerHeight-50;
 var disp = d3.dispatch("countrySelected");
 disp.on("countrySelected", function () {
   if (this.caller === "map") {
-    list.setFilter(this.filter_list);
-    pie.setFilter(this.filter_pie);
-    scatterplot.setFilter(this.filter_scatter);
-    line.setFilter(this.filter_line);
+    list.setFilter(this.filter);
+    pie.setFilter(this.filter);
+    scatterplot.setFilter(this.filter);
+    line.setFilter(this.filter);
+
+    //list.polishData();
+    pie.polishData();
+    //scatterplot.polishData();
+    //line.polishData();
 
     list.drawView();
     pie.drawView();
@@ -33,12 +38,16 @@ d3.json("https://raw.githubusercontent.com/vsychen/Big-2000-visualizacao-2017-1/
   line.setData(dataset);
 
   map.polishData();
-  //list.drawView();
+  //list.polishData();
   pie.polishData();
+  //scatterplot.polishData();
+  //line.polishData();
+
+  //list.drawView();
+  pie.drawView();
   //scatterplot.drawView();
   //line.drawView();
 
-  pie.drawView();
   // world map
   d3.json("https://rawgit.com/vsychen/Big-2000-visualizacao-2017-1/master/json/world-topo-min.json", function (d) {
     map.setMap(topojson.feature(d, d.objects.countries).features);

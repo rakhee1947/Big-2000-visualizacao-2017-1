@@ -1,5 +1,7 @@
 class WorldMap {
   constructor(id, w, h) {
+    var that = this;
+
     var zoom = d3.zoom()
       .scaleExtent([1,8])
       .translateExtent([[-100, -100], [width + 90, height + 100]])
@@ -10,8 +12,10 @@ class WorldMap {
       .attr("class", "container")
       .attr("width", w-20)
       .attr("height", h)
-      .call(zoom).on("click", resetZoom);
-  
+      .call(zoom)
+      .on("click", function() { that.nextPhase(that); })
+      .on("contextmenu", resetZoom);
+
     this.id = id;
     this.w = w;
     this.h = h;
@@ -30,13 +34,17 @@ class WorldMap {
     this.path = d3.geoPath().projection(this.projection);
     this.dataset = [];
 
-    var that = this;
-
     function zoomed() {
       that.canvas.selectAll(".country").attr("transform", d3.event.transform);
     }
 
+    function nextPhase(widget) {
+      countryName = ""; // descobrir nome do país clicado
+      widget.dispatch.call("countrySelected", {caller:widget.id, filter:countryName});
+    }
+
     function resetZoom() {
+      d3.event.preventDefault();
       that.canvas.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
     }
   }
