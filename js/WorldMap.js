@@ -10,7 +10,6 @@ class WorldMap {
       .attr("class", "container")
       .attr("width", w-20)
       .attr("height", h)
-      .attr("transform", "translate(0,0)")
       .call(zoom).on("click", resetZoom);
   
     this.id = id;

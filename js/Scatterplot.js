@@ -3,8 +3,7 @@ class Scatterplot {
     this.canvas = d3.select("#"+id)
       .attr("class","container")
       .attr("width",w)
-      .attr("height",h)
-      .attr("transform","translate(0,60)");
+      .attr("height",h);
     this.id = id;
     
     this.margin = {top: 20, right: 20, bottom: 25, left: 50};
