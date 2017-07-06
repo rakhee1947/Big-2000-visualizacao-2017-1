@@ -27,13 +27,11 @@ class PieChart {
 
   polishData() {
     this.industries = [];
-    this.total = 0;
     var quantity = [];
 
     for(var i = 0; i < this.dataset.length; i++) {
       if(this.filter === "" || this.filter === this.dataset[i].country) {
         var a = this.industries.indexOf(this.dataset[i].industry);
-        this.total += 1;
 
         if(a == -1) {
           this.industries.push(this.dataset[i].industry);
@@ -44,7 +42,9 @@ class PieChart {
       }
     }
 
-    for(var i = 0; i < this.industries.length; i++) {
+    this.total = this.industries.length;
+
+    for(var i = 0; i < this.total; i++) {
       if (this.industries[i] === "") this.industries[i] = "-No Industry Specified-";
       this.industries[i] = { industry:this.industries[i], quantity:quantity[i] };
     }
@@ -61,6 +61,10 @@ class PieChart {
     });
     this.canvas.call(tip);
 
+    this.canvas.select("#pie-label").remove();
+    this.g.selectAll(".arc").remove();
+    this.g.selectAll("text").remove();
+
     var arc = this.g.selectAll(".arc")
       .data(pie(this.industries)).enter().append("g")
       .attr("class", "arc");
@@ -71,9 +75,20 @@ class PieChart {
       .on('mouseover', tip.show)
       .on('mouseout', tip.hide);
 
+    this.canvas.append("text")
+      .attr("id", "pie-label")
+      .attr("transform", "translate(" + ((this.w/2)+3) + "," + ((this.h/10)+5) + ")")
+      .attr("font-size", 12)
+      .attr("font-family", "Verdana")
+      .style("font-weight","Bold")
+      .style("fill", "#0")
+      .style("cursor", "default")
+      .attr("text-anchor", "middle")
+      .text((this.filter !== "") ? this.filter : "Global");
+
     arc.append("text")
       .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
-      .style("font-size", this.total/1700)
+      .style("font-size", 8)
       .style("font-family","Verdana")
       .style("font-weight","Bold")
       .style("fill", "#ffffff")

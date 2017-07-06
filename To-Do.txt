@@ -1,0 +1,8 @@
+WORLD MAP:
+- Return to Global Selection
+- Highlight Selected Country
+- Add Tooltip with Country Name and Quantity of Companies
+- Restrict Horizontal Pan
+
+PIE CHART:
+- Gray Chart for Countries with zero companies

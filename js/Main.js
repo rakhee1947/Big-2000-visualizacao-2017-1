@@ -4,24 +4,25 @@ var height = window.innerHeight-50;
 var disp = d3.dispatch("countrySelected");
 disp.on("countrySelected", function () {
   if (this.caller === "map") {
-    list.setFilter(this.filter);
+  //  list.setFilter(this.filter);
     pie.setFilter(this.filter);
-    scatterplot.setFilter(this.filter);
-    line.setFilter(this.filter);
+  //  scatterplot.setFilter(this.filter);
+  //  line.setFilter(this.filter);
 
     //list.polishData();
     pie.polishData();
     //scatterplot.polishData();
     //line.polishData();
 
-    list.drawView();
+   // list.drawView();
     pie.drawView();
-    scatterplot.drawView();
-    line.drawView();
+   // scatterplot.drawView();
+   // line.drawView();
   }
 });
 
 var map = new WorldMap("map", width, height);
+map.dispatch = disp;
 var list = new InfoList("list", width, height/2);
 var pie = new PieChart("pie", (width/3)-(width/50), height/2);
 var scatterplot = new Scatterplot("scatter", (width/3)-(width/50), height/2);

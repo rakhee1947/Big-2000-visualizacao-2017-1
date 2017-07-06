@@ -13,7 +13,6 @@ class WorldMap {
       .attr("width", w-20)
       .attr("height", h)
       .call(zoom)
-      .on("click", function() { that.nextPhase(that); })
       .on("contextmenu", resetZoom);
 
     this.id = id;
@@ -38,15 +37,14 @@ class WorldMap {
       that.canvas.selectAll(".country").attr("transform", d3.event.transform);
     }
 
-    function nextPhase(widget) {
-      countryName = ""; // descobrir nome do país clicado
-      widget.dispatch.call("countrySelected", {caller:widget.id, filter:countryName});
-    }
-
     function resetZoom() {
       d3.event.preventDefault();
       that.canvas.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
     }
+  }
+
+  nextPhase(d, widget) {
+    widget.dispatch.call("countrySelected", {caller:widget.id, filter:d.properties.name});
   }
 
   setData(data) {
@@ -76,6 +74,7 @@ class WorldMap {
   polishData() {
     this.countries = [];
     this.score = [];
+	this.quantity = [];
     this.maxScore = 0;
 
     for(var i = 0; i < this.dataset.length; i++) {
@@ -85,9 +84,11 @@ class WorldMap {
       if(a == -1) {
         this.countries.push(this.dataset[i].country);
         this.score.push(b);
+		this.quantity.push(1);
         if(b > this.maxScore) { this.maxScore = b; }
       } else {
         this.score[a] += b;
+		this.quantity[a] += 1;
         if(this.score[a] > this.maxScore) { this.maxScore = this.score[a]; }
       }
     }
@@ -111,6 +112,8 @@ class WorldMap {
           return that.cScale(Math.log(that.score[that.countries.indexOf(d.properties.name)]));
         }
       })
+	  .on("click", function(d) { that.nextPhase(d, that); })
+
       .on("mouseover",function (d,i) {
         that.tooltip.classed("hidden", false)
           .attr("style", "x:" + d3.mouse(this)[0] + "px;y:" + d3.mouse(this)[1] + "px;")
