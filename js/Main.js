@@ -5,18 +5,19 @@ var disp = d3.dispatch("countrySelected");
 disp.on("countrySelected", function () {
   if (this.caller === "map") {
   //  list.setFilter(this.filter);
-    pie.setFilter(this.filter);
-  //  scatterplot.setFilter(this.filter);
-  //  line.setFilter(this.filter);
-
     //list.polishData();
-    pie.polishData();
-    //scatterplot.polishData();
-    //line.polishData();
-
    // list.drawView();
+
+    pie.setFilter(this.filter);
+    pie.polishData();
     pie.drawView();
-   // scatterplot.drawView();
+
+    scatterplot.setFilter(this.filter);
+    scatterplot.polishData();
+    scatterplot.drawView();
+
+  //  line.setFilter(this.filter);
+    //line.polishData();
    // line.drawView();
   }
 });
@@ -33,20 +34,24 @@ d3.json("https://raw.githubusercontent.com/vsychen/Big-2000-visualizacao-2017-1/
   var dataset = d.companies;
 
   map.setData(dataset);
-  list.setData(dataset);
-  pie.setData(dataset);
-  //scatterplot.setData(dataset);
-  //line.setData(dataset);
-
   map.polishData();
-  //list.polishData();
-  pie.polishData();
-  //scatterplot.polishData();
-  //line.polishData();
 
+  list.setData(dataset);
+  //list.polishData();
   //list.drawView();
+
+  pie.setData(dataset);
+  pie.polishData();
   pie.drawView();
-  //scatterplot.drawView();
+
+  scatterplot.setData(dataset);
+  scatterplot.polishData();
+  scatterplot.setXAxis("sales");
+  scatterplot.setYAxis("profits");
+  scatterplot.drawView("sales", "profits");
+
+  //line.setData(dataset);
+  //line.polishData();
   //line.drawView();
 
   // world map

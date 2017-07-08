@@ -63,6 +63,15 @@ class PieChart {
   }
   
   drawView() {
+    this.canvas.select(".title").remove();
+    this.g.selectAll(".arc").remove();
+    this.g.selectAll(".slice-text").remove();
+
+    this.canvas.append("text")
+      .attr("class", "title")
+      .attr("transform", "translate(" + ((this.w/2)+3) + "," + ((this.h/15)+5) + ")")
+      .text((this.filter.length > 0) ? this.filter : "Global");
+
     var color = d3.scaleOrdinal(d3.schemeCategory20c);
     var pie = d3.pie().sort(null).value(function(d) { return d.quantity; });
     var path = d3.arc().outerRadius(this.r - 30).innerRadius(0);
@@ -72,10 +81,6 @@ class PieChart {
       return d.data.industry+"<br>Quantidade: <span style='color:red'>" + d.data.quantity + "</span>";
     });
     this.canvas.call(tip);
-
-    this.canvas.select(".title").remove();
-    this.g.selectAll(".arc").remove();
-    this.g.selectAll("text").remove();
 
     var arc = this.g.selectAll(".arc")
       .data(pie(this.industries)).enter().append("g")
@@ -87,12 +92,8 @@ class PieChart {
       .on('mouseover', tip.show)
       .on('mouseout', tip.hide);
 
-    this.canvas.append("text")
-      .attr("class", "title")
-      .attr("transform", "translate(" + ((this.w/2)+3) + "," + ((this.h/15)+5) + ")")
-      .text((this.filter.length > 0) ? this.filter : "Global");
-
     arc.append("text")
+      .attr("class", "slice-text")
       .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
       .text(function(d) { return d.data.quantity; });
   }
