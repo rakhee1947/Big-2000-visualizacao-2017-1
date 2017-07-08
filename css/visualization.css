@@ -1,24 +1,20 @@
-/* Pie Chart */
-.title {
-	font-size: 12px;
-	font-family: verdana;
-	font-weight: bold;
-	fill: #000000;
-	cursor: default;
-	text-anchor: middle;
-}
-
-.scale {
-	
-}
-
 text {
 	font-size: 8px;
 	font-family: verdana;
 	font-weight: bold;
-	fill: #ffffff;
 	cursor: default;
 	pointer-events: none;
+}
+
+.title {
+	font-size: 12px;
+	fill: #000000;
+	text-anchor: middle;
+}
+
+/* Pie Chart */
+#pie .slice-text {
+	fill: #ffffff;
 }
 
 .arc path {

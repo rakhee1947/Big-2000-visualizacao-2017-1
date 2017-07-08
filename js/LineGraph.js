@@ -95,7 +95,6 @@ class LineGraph {
       .y(function(d) { return that.yScale(that.getYAxis(d)); });
 	  
 	for(var i = 0; i < this.industries.length; i++){
-		console.log(this.industries[i])
 		this.canvas.append("path").data(this.industries[i]).attr("stroke","black").attr("stroke-width",3).attr("d", line);
 	}
 	
