@@ -2,9 +2,9 @@ class PieChart {
   constructor(id, w, h) {
     this.canvas = d3.select("#"+id)
       .attr("class", "container")
-      .attr("width",w)
-      .attr("height",h)
-      .attr("x",0);
+      .attr("width", w)
+      .attr("height", h)
+      .attr("x", 0);
 
     this.id = id;
     this.w = w;
@@ -14,15 +14,27 @@ class PieChart {
       .attr("transform", "translate(" + ((w/2)+3) + "," + ((h/2)+20) + ")");
 
     this.dataset = [];
-    this.filter = "";
+    this.filter = [];
   }
 
   setFilter(filter) {
-    this.filter = filter;
+    var i = -1;
+
+    if ((i = this.filter.indexOf(filter)) === -1) {
+      this.filter.push(filter);
+    } else {
+      this.filter.splice(i, 1);
+	}
   }
 
   setData(data) {
     this.dataset = data;
+  }
+  
+  filterData(data) {
+    if(this.filter === "") return true;
+    else if(this.filter.indexOf(data) !== -1) return true;
+    else return false;
   }
 
   polishData() {
@@ -30,7 +42,7 @@ class PieChart {
     var quantity = [];
 
     for(var i = 0; i < this.dataset.length; i++) {
-      if(this.filter === "" || this.filter === this.dataset[i].country) {
+      if(this.filter.length === 0 || this.filter.indexOf(this.dataset[i].country) !== -1) {
         var a = this.industries.indexOf(this.dataset[i].industry);
 
         if(a == -1) {
@@ -61,7 +73,7 @@ class PieChart {
     });
     this.canvas.call(tip);
 
-    this.canvas.select("#pie-label").remove();
+    this.canvas.select(".title").remove();
     this.g.selectAll(".arc").remove();
     this.g.selectAll("text").remove();
 
@@ -76,24 +88,12 @@ class PieChart {
       .on('mouseout', tip.hide);
 
     this.canvas.append("text")
-      .attr("id", "pie-label")
+      .attr("class", "title")
       .attr("transform", "translate(" + ((this.w/2)+3) + "," + ((this.h/15)+5) + ")")
-      .attr("font-size", 12)
-      .attr("font-family", "Verdana")
-      .style("font-weight","Bold")
-      .style("fill", "#0")
-      .style("cursor", "default")
-      .attr("text-anchor", "middle")
-      .text((this.filter !== "") ? this.filter : "Global");
+      .text((this.filter.length > 0) ? this.filter : "Global");
 
     arc.append("text")
       .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
-      .style("font-size", 8)
-      .style("font-family","Verdana")
-      .style("font-weight","Bold")
-      .style("fill", "#ffffff")
-      .style("cursor", "default")
-      .style("pointer-events", "none")
       .text(function(d) { return d.data.quantity; });
   }
 }
