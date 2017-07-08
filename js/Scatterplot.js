@@ -60,23 +60,13 @@ class Scatterplot {
   }
   
   setXAxis(x) {
-    this.xScale.domain(d3.extent(this.dataset, function(d) {
-		debugger;
-		return d.window[x];/*
-		if(x === "sales") return d.sales;
-		else if(x === "profits") return d.profits;
-		else if(x === "assets") return d.assets;
-		else if(x === "marketValue") return d.market_value;*/
-	}));
+	this.x = x;
+    this.xScale.domain(d3.extent(this.dataset, function(d) { return d[x]; }));
   }
   
   setYAxis(y) {
-    this.yScale.domain(d3.extent(this.dataset, function(d) {
-		if(y === "sales") return d.sales;
-		else if(y === "profits") return d.profits;
-		else if(y === "assets") return d.assets;
-		else if(y === "marketValue") return d.market_value;
-	}));
+	this.y = y;
+    this.yScale.domain(d3.extent(this.dataset, function(d) { return d[y]; }));
   }
   
   drawView() {
@@ -93,29 +83,18 @@ class Scatterplot {
 
 	this.g.selectAll("circle").data(this.dataset).enter().append("circle")
 		.attr("class", "ball")
-		.attr("cx", function(d) { 
-			if (x === "sales") return that.xScale(d.sales);
-			else if(x === "profits") return that.xScale(d.profits);
-			else if(x === "assets") return that.xScale(d.assets);
-			else if(x === "marketValue") return that.xScale(d.market_value);
-			console.log(that.xScale(d.sales));
-		})
-		.attr("cy", function(d) {
-			if(y === "sales") return that.yScale(d.sales);
-			else if(y === "profits") return that.yScale(d.profits);
-			else if(y === "assets") return that.yScale(d.assets);
-			else if(y === "marketValue") return that.yScale(d.market_value);
-		})
+		.attr("cx", function(d) { return that.xScale([this.x]); })
+		.attr("cy", function(d) { return that.yScale([this.y]); })
 		.attr("r", function(d) { return that.rScale(d.rank); })
 		.attr("fill", function(d) { return that.cScale(d.rank); });
 
 	this.g.append("g").attr("transform","translate(0," + this.h + ")")
 		.call(d3.axisBottom(this.xScale).ticks(5)).append("text")
-		.attr("fill","#000").attr("y",-6).attr("x",this.w-4).text(x.toUpperCase());
+		.attr("fill","#000").attr("y",-6).attr("x",this.w-4).text(this.x.toUpperCase());
 
 	this.g.append("g").call(d3.axisLeft(this.yScale)).append("text").attr("fill", "#000")
 		.attr("transform", "rotate(-90)").attr("y", 6).attr("dy", "0.71em")
-		.attr("text-anchor", "end").text(y.toUpperCase());
+		.attr("text-anchor", "end").text(this.y.toUpperCase());
 /*
     var color = d3.scaleOrdinal(d3.schemeCategory20c);
     var pie = d3.pie().sort(null).value(function(d) { return d.quantity; });
