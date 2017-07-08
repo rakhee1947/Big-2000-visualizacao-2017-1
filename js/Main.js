@@ -4,9 +4,9 @@ var height = window.innerHeight-50;
 var disp = d3.dispatch("countrySelected");
 disp.on("countrySelected", function () {
   if (this.caller === "map") {
-  //  list.setFilter(this.filter);
-    //list.polishData();
-   // list.drawView();
+    list.setFilter(this.filter);
+    list.polishData();
+    list.drawView();
 
     pie.setFilter(this.filter);
     pie.polishData();
@@ -37,8 +37,8 @@ d3.json("https://raw.githubusercontent.com/vsychen/Big-2000-visualizacao-2017-1/
   map.polishData();
 
   list.setData(dataset);
-  //list.polishData();
-  //list.drawView();
+  list.polishData();
+  list.drawView();
 
   pie.setData(dataset);
   pie.polishData();
