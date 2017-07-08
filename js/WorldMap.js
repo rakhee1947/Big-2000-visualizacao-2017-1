@@ -46,7 +46,13 @@ class WorldMap {
   }
 
   setData(data) {
-    this.dataset = data;
+	this.dataset = [];
+	
+	for(var i = 0; i < data.length; i++) {
+      if(data[i].year === 2016) {
+        this.dataset.push(data[i]);
+      }
+    }
   }
 
   calculateRank(val) {
