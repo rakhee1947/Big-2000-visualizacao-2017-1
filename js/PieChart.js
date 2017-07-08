@@ -20,21 +20,21 @@ class PieChart {
   setFilter(filter) {
     var i = -1;
 
-    if ((i = this.filter.indexOf(filter)) === -1) {
+    if((i = this.filter.indexOf(filter)) === -1) {
       this.filter.push(filter);
     } else {
       this.filter.splice(i, 1);
-	}
+    }
   }
 
   setData(data) {
-    this.dataset = data;
-  }
-  
-  filterData(data) {
-    if(this.filter === "") return true;
-    else if(this.filter.indexOf(data) !== -1) return true;
-    else return false;
+    this.dataset = [];
+
+    for(var i = 0; i < data.length; i++) {
+      if(data[i].year === 2016) {
+        this.dataset.push(data[i]);
+      }
+    }
   }
 
   polishData() {
@@ -57,12 +57,21 @@ class PieChart {
     this.total = this.industries.length;
 
     for(var i = 0; i < this.total; i++) {
-      if (this.industries[i] === "") this.industries[i] = "-No Industry Specified-";
+      if(this.industries[i] === "") this.industries[i] = "-No Industry Specified-";
       this.industries[i] = { industry:this.industries[i], quantity:quantity[i] };
     }
   }
   
   drawView() {
+    this.canvas.select(".title").remove();
+    this.g.selectAll(".arc").remove();
+    this.g.selectAll(".slice-text").remove();
+
+    this.canvas.append("text")
+      .attr("class", "title")
+      .attr("transform", "translate(" + ((this.w/2)+3) + "," + ((this.h/15)+5) + ")")
+      .text((this.filter.length > 0) ? this.filter : "Global");
+
     var color = d3.scaleOrdinal(d3.schemeCategory20c);
     var pie = d3.pie().sort(null).value(function(d) { return d.quantity; });
     var path = d3.arc().outerRadius(this.r - 30).innerRadius(0);
@@ -72,10 +81,6 @@ class PieChart {
       return d.data.industry+"<br>Quantidade: <span style='color:red'>" + d.data.quantity + "</span>";
     });
     this.canvas.call(tip);
-
-    this.canvas.select(".title").remove();
-    this.g.selectAll(".arc").remove();
-    this.g.selectAll("text").remove();
 
     var arc = this.g.selectAll(".arc")
       .data(pie(this.industries)).enter().append("g")
@@ -87,12 +92,8 @@ class PieChart {
       .on('mouseover', tip.show)
       .on('mouseout', tip.hide);
 
-    this.canvas.append("text")
-      .attr("class", "title")
-      .attr("transform", "translate(" + ((this.w/2)+3) + "," + ((this.h/15)+5) + ")")
-      .text((this.filter.length > 0) ? this.filter : "Global");
-
     arc.append("text")
+      .attr("class", "slice-text")
       .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
       .text(function(d) { return d.data.quantity; });
   }
