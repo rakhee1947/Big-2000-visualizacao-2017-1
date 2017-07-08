@@ -56,17 +56,17 @@ class Scatterplot {
 
         this.companies.push(company);
       }
-    }
+    }console.log(this.companies)
   }
   
   setXAxis(x) {
 	this.x = x;
-    this.xScale.domain(d3.extent(this.dataset, function(d) { return d[x]; }));
+    this.xScale.domain(d3.extent(this.companies, function(d) { return d[x]; }));
   }
   
   setYAxis(y) {
 	this.y = y;
-    this.yScale.domain(d3.extent(this.dataset, function(d) { return d[y]; }));
+    this.yScale.domain(d3.extent(this.companies, function(d) { return d[y]; }));
   }
   
   drawView() {
@@ -79,10 +79,10 @@ class Scatterplot {
 		.text((this.filter.length > 0) ? this.filter : "Global");
 
 	var that = this;
-	this.rScale.domain(d3.extent(this.dataset, function(d) { return d.rank; }));
+	this.rScale.domain(d3.extent(this.companies, function(d) { return d.rank; }));
 	this.cScale.domain([2000,1])
 
-	this.g.selectAll("circle").data(this.dataset).enter().append("circle")
+	this.g.selectAll("circle").data(this.companies).enter().append("circle")
 		.attr("class", "ball")
 		.attr("cx", function(d) { return that.xScale(d[that.x]);})
 		.attr("cy", function(d) { return that.yScale(d[that.y]); })

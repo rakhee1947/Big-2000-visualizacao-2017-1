@@ -16,9 +16,9 @@ disp.on("countrySelected", function () {
     scatterplot.polishData();
     scatterplot.drawView();
 
-	line.setFilter(this.filter);
-	line.polishData();
-	line.drawView();
+	//line.setFilter(this.filter);
+	//line.polishData();
+	//line.drawView();
   }
 });
 
