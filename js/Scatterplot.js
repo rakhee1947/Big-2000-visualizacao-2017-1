@@ -6,7 +6,7 @@ class Scatterplot {
       .attr("height", h);
 
     this.id = id;
-    this.w = w - 45;
+    this.w = w - 50;
     this.h = h - 70;
     this.g = this.canvas.append("g")
       .attr("transform", "translate(30,40)");
@@ -75,7 +75,7 @@ class Scatterplot {
   
     this.canvas.append("text")
       .attr("class", "title")
-      .attr("transform", "translate(" + ((this.w/2)+3) + "," + ((this.h/15)+5) + ")")
+      .attr("transform", "translate(" + ((this.w/2)+23) + "," + ((this.h/15)+5) + ")")
       .text((this.filter.length > 0) ? this.filter : "Global");
 
     var that = this;
@@ -91,10 +91,10 @@ class Scatterplot {
 
     this.g.append("g").attr("transform","translate(0," + this.h + ")")
       .call(d3.axisBottom(this.xScale).ticks(5)).append("text")
-      .attr("fill","#000").attr("y",-6).attr("x",this.w-4).text(this.x.toUpperCase());
+      .attr("fill","#000").attr("y",-6).attr("x",this.w-4).text(this.x.toUpperCase() + "(B)");
 
     this.g.append("g").call(d3.axisLeft(this.yScale)).append("text").attr("fill", "#000")
       .attr("transform", "rotate(-90)").attr("y", 6).attr("dy", "0.71em")
-      .attr("text-anchor", "end").text(this.y.toUpperCase());
+      .attr("text-anchor", "end").text(this.y.toUpperCase() + "(B)");
   }
 }

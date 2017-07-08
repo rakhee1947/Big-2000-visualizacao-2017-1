@@ -16,9 +16,9 @@ disp.on("countrySelected", function () {
     scatterplot.polishData();
     scatterplot.drawView();
 
-	//line.setFilter(this.filter);
-	//line.polishData();
-	//line.drawView();
+	line.setFilter(this.filter);
+	line.polishData();
+	line.drawView();
   }
 });
 
@@ -52,6 +52,7 @@ d3.json("https://raw.githubusercontent.com/vsychen/Big-2000-visualizacao-2017-1/
 
   line.setData(dataset);
   line.polishData();
+  line.setYAxis("profits");
   line.drawView();
 
   // world map

@@ -6,13 +6,17 @@ class LineGraph {
       .attr("height",h);
 	  
     this.id = id;
-	this.w = w;
-    this.h = h;
-	
+	this.w = w - 50;
+    this.h = h - 75;
+    this.g = this.canvas.append("g")
+      .attr("transform", "translate(34,40)");
+
+	this.xScale = d3.scaleTime().domain([new Date(2011,0,1), new Date(2016,0,1)]).range([0, this.w]);
+	this.yScale = d3.scaleLinear().range([this.h, 0]);
+	this.cScale = d3.scaleLinear().range(["#000", "#00f"]);
+
 	this.dataset = [];
     this.filter = [];
-	this.yAxis = "Profits";
-	this.yScale = d3.scaleLinear().range([(this.h), 0]);
 }
   
   setFilter(filter) {
@@ -69,21 +73,56 @@ class LineGraph {
   
   setYAxis(y){
     this.y = y;
-    this.yScale.domain(d3.extent(this.companies, function(d) { return d[y]; }));
+    this.yScale.domain(d3.extent(this.dataset, function(d) { return d[y]; }));
   }
  
   drawView() {
-	var xScale = d3.scaleLinear().range([0, (this.w)]).domain([2011,2016]);
-	this.yScale = this.setYAxis();
+    this.canvas.select(".title").remove();
+    this.g.selectAll(".axis").remove();
+	this.g.selectAll(".history").remove();
+  
+    this.canvas.append("text")
+      .attr("class", "title")
+      .attr("transform", "translate(" + ((this.w/2)+23) + "," + ((this.h/15)+5) + ")")
+      .text((this.filter.length > 0) ? this.filter : "Global");
+
+	this.g.append("g")
+		.attr("transform","translate(0," + this.h + ")")
+		.attr("class", "axis")
+		.call(d3.axisBottom(this.xScale).tickFormat(d3.timeFormat("%Y")));
+	
+	this.g.append("g")
+		.attr("class", "axis")
+		.call(d3.axisLeft(this.yScale));
+	
 	var that = this;
   
     var line = d3.line()
-      .x(function(d) { return xScale(d.year); })
+      .x(function(d) { debugger;return xScale(new Date(d.year,0,1)); })
       .y(function(d) { return that.yScale(d[that.y]); });
 	  
+	  
+	this.cScale.domain([2000,1])
 	for(var i = 0; i < this.industries.length; i++){
-		this.canvas.append("path").data(this.industries[i]).attr("stroke","black").attr("stroke-width",3).attr("d", line);
+		var points = "";
+		for (var j = 0; j < 6; j++){
+			if(j == 0){
+				points = this.xScale(new Date(2011+j,0,1))+","+this.yScale(this.industries[i][j][this.y]);
+			}else{
+				points += " " + this.xScale(new Date(2011+j,0,1))+","+this.yScale(this.industries[i][j][this.y]);
+			}
+
+		}
+		this.g.append("g").attr("class","history").attr("fill", "none").append("polyline").attr("points", points).attr("stroke", function(){ return that.cScale(that.industries[i][5].rank);});
 	}
+	
+    this.g.append("g").attr("transform","translate(0," + this.h + ")")
+      .call(d3.axisBottom(this.xScale).ticks(5)).append("text")
+      .attr("fill","#000").attr("y",+24).attr("x",((this.w)/2)).text("YEAR");
+
+    this.g.append("g").call(d3.axisLeft(this.yScale)).append("text").attr("fill", "#000")
+      .attr("transform", "rotate(-90)").attr("y", 6).attr("dy", "0.71em")
+      .attr("text-anchor", "end").text(this.y.toUpperCase() + "(B)");
 	
 	//this.canvas.append("g").attr("transform", "translate(0," + height + ")").call(d3.axisBottom(xScale));
 	//this.canvas.append("g").call(d3.axisLeft(this.yScale));
