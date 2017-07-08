@@ -19,9 +19,7 @@ class WorldMap {
     this.w = w;
     this.h = h;
 
-    this.tooltip = this.canvas
-      .append("div")
-      .attr("class", "tooltip hidden");
+    this.tooltipDiv = this.canvas.append("div").attr("class", "tooltip").style("opacity", 0);
 
     this.cScale = d3.scaleLinear()
       .range(["#ffa07a","#ffd700","#daa520"]);
@@ -97,7 +95,12 @@ class WorldMap {
   setMap(data) {
     var maxS = Math.log(this.maxScore)/2
     this.cScale.domain([0,maxS,(maxS*2)]);
-    var that = this;
+    	
+	var div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+	
+	var that = this;
 
     var country = this.canvas.selectAll(".country").data(data);
     country.enter()
@@ -112,15 +115,23 @@ class WorldMap {
           return that.cScale(Math.log(that.score[that.countries.indexOf(d.properties.name)]));
         }
       })
-	  .on("click", function(d) { that.nextPhase(d, that); })
-
-      .on("mouseover",function (d,i) {
-        that.tooltip.classed("hidden", false)
-          .attr("style", "x:" + d3.mouse(this)[0] + "px;y:" + d3.mouse(this)[1] + "px;")
-          .html(d.properties.name);
-      })
-      .on("mouseout",function (d) { that.tooltip.classed("hidden", true); });
-
+	  .on('mouseover', function(d){
+		 div.transition().duration(200).style("opacity", .9); 
+		 var a = that.countries.indexOf(d.properties.name);
+		 if(a == -1){
+			div.html(d.properties.name+"<br/> Zero Empresas")
+			.style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY - 28) + "px");
+		 }else{
+			 div.html(d.properties.name+"<br/>"+that.quantity[a]+" Empresas")
+			 .style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY - 28) + "px");
+		 }
+	  })
+      .on('mouseout', function(d){
+		 div.transition().duration(200).style("opacity", 0);  
+		 div.html("");
+	  })
+	  .on("click", function(d) { that.nextPhase(d, that); });
+	  
     this.canvas
       .append("rect")
       .attr("width", (this.w/10)+3)
