@@ -48,7 +48,7 @@ d3.json("https://raw.githubusercontent.com/vsychen/Big-2000-visualizacao-2017-1/
   scatterplot.polishData();
   scatterplot.setXAxis("sales");
   scatterplot.setYAxis("profits");
-  scatterplot.drawView("sales", "profits");
+  scatterplot.drawView();
 
   line.setData(dataset);
   line.polishData();
