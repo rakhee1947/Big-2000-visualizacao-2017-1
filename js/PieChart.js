@@ -20,21 +20,21 @@ class PieChart {
   setFilter(filter) {
     var i = -1;
 
-    if ((i = this.filter.indexOf(filter)) === -1) {
+    if((i = this.filter.indexOf(filter)) === -1) {
       this.filter.push(filter);
     } else {
       this.filter.splice(i, 1);
-	}
+    }
   }
 
   setData(data) {
-    this.dataset = data;
-  }
-  
-  filterData(data) {
-    if(this.filter === "") return true;
-    else if(this.filter.indexOf(data) !== -1) return true;
-    else return false;
+    this.dataset = [];
+
+    for(var i = 0; i < data.length; i++) {
+      if(data[i].year === 2016) {
+        this.dataset.push(data[i]);
+      }
+    }
   }
 
   polishData() {
@@ -57,7 +57,7 @@ class PieChart {
     this.total = this.industries.length;
 
     for(var i = 0; i < this.total; i++) {
-      if (this.industries[i] === "") this.industries[i] = "-No Industry Specified-";
+      if(this.industries[i] === "") this.industries[i] = "-No Industry Specified-";
       this.industries[i] = { industry:this.industries[i], quantity:quantity[i] };
     }
   }
