@@ -56,7 +56,7 @@ class LineGraph {
 		
       }
     }
-	
+
 	for(var i = 0; i < this.industries.length; i++){
 		for(var j = 0; j < this.industries[i].length; j++){
 			if(this.industries[i][j] == null){
@@ -66,23 +66,10 @@ class LineGraph {
 		}
 	}	
   }
-
   
-  setYAxis(){
-	  var that = this;
-	  this.yScale.domain(d3.extent(this.dataset, function(d){
-		if(that.yAxis === "Profits"){ return d.profits }
-		else if(that.yAxis === "Sales"){ return d.sales }
-		else if(that.yAxis === "Market Value"){ return d.market_value; }
-		else if(that.yAxis === "Assets"){ return d.assets }
-	}))
-  }
-  
-  getYAxis(d){
-	  if(this.yAxis === "Profits"){ return d.profits }
-		else if(this.yAxis === "Sales"){ return d.sales }
-		else if(this.yAxis === "Market Value"){ return d.market_value; }
-		else if(this.yAxis === "Assets"){ return d.assets }
+  setYAxis(y){
+    this.y = y;
+    this.yScale.domain(d3.extent(this.companies, function(d) { return d[y]; }));
   }
  
   drawView() {
@@ -92,7 +79,7 @@ class LineGraph {
   
     var line = d3.line()
       .x(function(d) { return xScale(d.year); })
-      .y(function(d) { return that.yScale(that.getYAxis(d)); });
+      .y(function(d) { return that.yScale(d[that.y]); });
 	  
 	for(var i = 0; i < this.industries.length; i++){
 		this.canvas.append("path").data(this.industries[i]).attr("stroke","black").attr("stroke-width",3).attr("d", line);
