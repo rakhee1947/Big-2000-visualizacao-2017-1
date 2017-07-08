@@ -1,0 +1,26 @@
+/* Pie Chart */
+.title {
+	font-size: 12px;
+	font-family: verdana;
+	font-weight: bold;
+	fill: #000000;
+	cursor: default;
+	text-anchor: middle;
+}
+
+.scale {
+	
+}
+
+text {
+	font-size: 8px;
+	font-family: verdana;
+	font-weight: bold;
+	fill: #ffffff;
+	cursor: default;
+	pointer-events: none;
+}
+
+.arc path {
+	stroke:none;
+}

@@ -35,8 +35,8 @@ d3.json("https://raw.githubusercontent.com/vsychen/Big-2000-visualizacao-2017-1/
   map.setData(dataset);
   list.setData(dataset);
   pie.setData(dataset);
-  scatterplot.setData(dataset);
-  line.setData(dataset);
+  //scatterplot.setData(dataset);
+  //line.setData(dataset);
 
   map.polishData();
   //list.polishData();
