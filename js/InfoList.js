@@ -9,10 +9,10 @@ class InfoList {
     this.col = [{name:"Rank", width:this.w/15},
       {name:"Company", width:this.w*4/15},
       {name:"Country", width:this.w*3/15},
-      {name:"Sales", width:this.w/15},
-      {name:"Profits", width:this.w/15},
-      {name:"Assets", width:this.w/15},
-      {name:"Market Value", width:this.w/15}];
+      {name:"Sales (B)", width:this.w/13},
+      {name:"Profits (B)", width:this.w/13},
+      {name:"Assets (B)", width:this.w/13},
+      {name:"Market Value (B)", width:this.w/13}];
 
     this.table = this.canvas.append("table").attr("width", this.w);
     this.thead = this.table.append("thead").attr("id", "header");
