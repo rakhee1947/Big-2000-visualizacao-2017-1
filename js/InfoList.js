@@ -12,7 +12,7 @@ class InfoList {
       {name:"Sales", width:this.w/15},
       {name:"Profits", width:this.w/15},
       {name:"Assets", width:this.w/15},
-      {name:"Market Value", width:this.w/16}];
+      {name:"Market Value", width:this.w/15}];
 
     this.table = this.canvas.append("table").attr("width", this.w);
     this.thead = this.table.append("thead").attr("id", "header");

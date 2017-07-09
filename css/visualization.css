@@ -31,7 +31,8 @@ text {
 #list table {
 	padding: 0px 10px;
 	table-layout: fixed;
-	word-break: break-all;
+    white-space: pre-wrap;
+    word-break: keep-all;
 	border-collapse: collapse;
 	cursor: default;
 }
