@@ -14,27 +14,11 @@ class PieChart {
       .attr("transform", "translate(" + ((w/2)+3) + "," + ((h/2)+20) + ")");
 
     this.dataset = [];
-    this.filter = [];
   }
 
-  setFilter(filter) {
-    var i = -1;
-
-    if((i = this.filter.indexOf(filter)) === -1) {
-      this.filter.push(filter);
-    } else {
-      this.filter.splice(i, 1);
-    }
-  }
-
-  setData(data) {
-    this.dataset = [];
-
-    for(var i = 0; i < data.length; i++) {
-      if(data[i].year === 2016) {
-        this.dataset.push(data[i]);
-      }
-    }
+  setData(filterName, data) {
+    this.filterName = filterName;
+    this.dataset = data.filter(function(d) { if(d.year === 2016) return d; });
   }
 
   polishData() {
@@ -42,21 +26,17 @@ class PieChart {
     var quantity = [];
 
     for(var i = 0; i < this.dataset.length; i++) {
-      if(this.filter.length === 0 || this.filter.indexOf(this.dataset[i].country) !== -1) {
-        var a = this.industries.indexOf(this.dataset[i].industry);
+      var a = this.industries.indexOf(this.dataset[i].industry);
 
-        if(a == -1) {
-          this.industries.push(this.dataset[i].industry);
-          quantity.push(1);
-        } else {
-          quantity[a] += 1;
-        }
+      if(a == -1) {
+        this.industries.push(this.dataset[i].industry);
+        quantity.push(1);
+      } else {
+        quantity[a] += 1;
       }
     }
 
-    this.total = this.industries.length;
-
-    for(var i = 0; i < this.total; i++) {
+    for(var i = 0; i < this.industries.length; i++) {
       if(this.industries[i] === "") this.industries[i] = "-No Industry Specified-";
       this.industries[i] = { industry:this.industries[i], quantity:quantity[i] };
     }
@@ -70,7 +50,7 @@ class PieChart {
     this.canvas.append("text")
       .attr("class", "title")
       .attr("transform", "translate(" + ((this.w/2)+3) + "," + ((this.h/15)+5) + ")")
-      .text((this.filter.length > 0) ? this.filter : "Global");
+      .text(this.filterName);
 
     var color = d3.scaleOrdinal(d3.schemeCategory20c);
     var pie = d3.pie().sort(null).value(function(d) { return d.quantity; });

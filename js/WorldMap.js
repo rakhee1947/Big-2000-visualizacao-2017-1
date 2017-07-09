@@ -29,7 +29,9 @@ class WorldMap {
 
     this.projection = d3.geoMercator().translate([w/2,height/2]).scale(width / 2 / Math.PI);
     this.path = d3.geoPath().projection(this.projection);
+    this.rawDataset = [];
     this.dataset = [];
+    this.filter = [];
 
     function zoomed() {
       that.canvas.selectAll(".country").attr("transform", d3.event.transform);
@@ -41,18 +43,16 @@ class WorldMap {
     }
   }
 
-  nextPhase(d, widget) {
-    widget.dispatch.call("countrySelected", {caller:widget.id, filter:d.properties.name});
+  nextPhase(f, widget) {
+    if (widget.filter.indexOf(f.properties.name) === -1) widget.filter.push(f.properties.name);
+    else widget.filter.splice(f.properties.name, 1);
+
+    widget.dispatch.call("selection", {caller:widget.id, filterName:(widget.filter.length > 0)?widget.filter:"Global", data:this.rawDataset.filter(function(d) { if (widget.filter.length === 0 || widget.filter.indexOf(d.country) !== -1) return d; })});
   }
 
   setData(data) {
-	this.dataset = [];
-	
-	for(var i = 0; i < data.length; i++) {
-      if(data[i].year === 2016) {
-        this.dataset.push(data[i]);
-      }
-    }
+    this.rawDataset = data;
+    this.dataset = this.rawDataset.filter(function(d) { if(d.year === 2016) return d; });
   }
 
   calculateRank(val) {
@@ -78,7 +78,7 @@ class WorldMap {
   polishData() {
     this.countries = [];
     this.score = [];
-	this.quantity = [];
+    this.quantity = [];
     this.maxScore = 0;
 
     for(var i = 0; i < this.dataset.length; i++) {
@@ -88,11 +88,11 @@ class WorldMap {
       if(a == -1) {
         this.countries.push(this.dataset[i].country);
         this.score.push(b);
-		this.quantity.push(1);
+        this.quantity.push(1);
         if(b > this.maxScore) { this.maxScore = b; }
       } else {
         this.score[a] += b;
-		this.quantity[a] += 1;
+        this.quantity[a] += 1;
         if(this.score[a] > this.maxScore) { this.maxScore = this.score[a]; }
       }
     }
@@ -101,12 +101,12 @@ class WorldMap {
   setMap(data) {
     var maxS = Math.log(this.maxScore)/2
     this.cScale.domain([0,maxS,(maxS*2)]);
-    	
-	var div = d3.select("body").append("div")
+
+    var div = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
-	
-	var that = this;
+
+    var that = this;
 
     var country = this.canvas.selectAll(".country").data(data);
     country.enter()
@@ -121,23 +121,23 @@ class WorldMap {
           return that.cScale(Math.log(that.score[that.countries.indexOf(d.properties.name)]));
         }
       })
-	  .on('mouseover', function(d){
-		 div.transition().duration(200).style("opacity", .9); 
-		 var a = that.countries.indexOf(d.properties.name);
-		 if(a == -1){
-			div.html(d.properties.name+"<br/> Zero Empresas")
-			.style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY - 28) + "px");
-		 }else{
-			 div.html(d.properties.name+"<br/>"+that.quantity[a]+" Empresas")
-			 .style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY - 28) + "px");
-		 }
-	  })
+      .on('mouseover', function(d){
+        div.transition().duration(200).style("opacity", .9); 
+        var a = that.countries.indexOf(d.properties.name);
+        if(a == -1) {
+          div.html(d.properties.name+"<br/> Zero Empresas")
+            .style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY - 28) + "px");
+        } else {
+          div.html(d.properties.name+"<br/>"+that.quantity[a]+" Empresas")
+            .style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY - 28) + "px");
+        }
+      })
       .on('mouseout', function(d){
-		 div.transition().duration(200).style("opacity", 0);  
-		 div.html("");
-	  })
-	  .on("click", function(d) { that.nextPhase(d, that); });
-	  
+        div.transition().duration(200).style("opacity", 0);  
+        div.html("");
+      })
+      .on("click", function(d) { that.nextPhase(d, that); });
+
     this.canvas
       .append("rect")
       .attr("width", (this.w/10)+3)
@@ -169,7 +169,7 @@ class WorldMap {
           .attr("fill", this.caption(i));
       }
     }
-  
+
     this.canvas
       .append("text")
       .attr("x", (0.3/100)*this.w)

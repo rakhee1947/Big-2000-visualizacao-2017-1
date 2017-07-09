@@ -10,73 +10,55 @@ class Scatterplot {
     this.h = h - 70;
     this.g = this.canvas.append("g")
       .attr("transform", "translate(30,40)");
-    
+
     this.xScale = d3.scaleLinear().rangeRound([0, this.w]);
     this.yScale = d3.scaleLinear().range([this.h, 0]);
     this.rScale = d3.scaleLinear().range([1,5]);
     this.cScale = d3.scaleLinear().range(["#0000ff", "#ff0000"]);
 
     this.dataset = [];
-    this.filter = [];
   }
 
-  setFilter(filter) {
-    var i = -1;
-
-    if((i = this.filter.indexOf(filter)) === -1) {
-      this.filter.push(filter);
-    } else {
-      this.filter.splice(i, 1);
-    }
-  }
-
-  setData(data) {
-    this.dataset = [];
-
-    for(var i = 0; i < data.length; i++) {
-      if(data[i].year === 2016) {
-        this.dataset.push(data[i]);
-      }
-    }
+  setData(filterName, data) {
+    this.filterName = filterName;
+    this.dataset = data.filter(function(d) { if(d.year === 2016) return d; });
   }
 
   polishData() {
     this.companies = [];
 
     for(var i = 0; i < this.dataset.length; i++) {
-      if(this.filter.length === 0 || this.filter.indexOf(this.dataset[i].country) !== -1) {
-        var company = {
-          name: this.dataset[i].name,
-          rank: this.dataset[i].rank,
-          sales: this.dataset[i].sales,
-          profits: this.dataset[i].profits,
-          assets: this.dataset[i].assets,
-          market_value: this.dataset[i].market_value
-        }
-
-        this.companies.push(company);
+      var company = {
+        name: this.dataset[i].name,
+        rank: this.dataset[i].rank,
+        sales: this.dataset[i].sales,
+        profits: this.dataset[i].profits,
+        assets: this.dataset[i].assets,
+        market_value: this.dataset[i].market_value
       }
+
+      this.companies.push(company);
     }
   }
-  
+
   setXAxis(x) {
     this.x = x;
     this.xScale.domain(d3.extent(this.companies, function(d) { return d[x]; }));
   }
-  
+
   setYAxis(y) {
     this.y = y;
     this.yScale.domain(d3.extent(this.companies, function(d) { return d[y]; }));
   }
-  
+
   drawView() {
     this.canvas.select(".title").remove();
     this.g.selectAll(".ball").remove();
-  
+
     this.canvas.append("text")
       .attr("class", "title")
       .attr("transform", "translate(" + ((this.w/2)+23) + "," + ((this.h/15)+5) + ")")
-      .text((this.filter.length > 0) ? this.filter : "Global");
+      .text(this.filterName);
 
     var that = this;
     this.rScale.domain(d3.extent(this.companies, function(d) { return d.rank; }));

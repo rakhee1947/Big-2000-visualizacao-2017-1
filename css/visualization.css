@@ -20,3 +20,9 @@ text {
 .arc path {
 	stroke:none;
 }
+
+/* List */
+#list {
+	float: right;
+	width: 60vw;
+}
