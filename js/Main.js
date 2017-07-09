@@ -1,19 +1,25 @@
 var width = window.innerWidth-100;
 var height = window.innerHeight-50;
 
+var year = 2016;
+var list_rank = "rank";
+var scatter_x_axis = "market_value";
+var scatter_y_axis = "assets";
+var line_y_axis = "profits";
+
 var disp = d3.dispatch("selection");
 disp.on("selection", function () {
   if(this.caller === "map") {
     list.setData(this.data);
     pie.setData(this.filterName, this.data);
-    scatterplot.setData(this.filterName, this.data);
+    scatter.setData(this.filterName, this.data);
     line.setData(this.filterName, this.data);
   } else if(this.caller === "pie") {
     list.setData(this.data);
-    scatterplot.setData(this.filterName, this.data);
+    scatter.setData(this.filterName, this.data);
     line.setData(this.filterName, this.data);
   } else if(this.caller === "list") {
-    scatterplot.setData(this.filterName, this.data);
+    scatter.setData(this.filterName, this.data);
     line.setData(this.filterName, this.data);
   }
 
@@ -26,8 +32,8 @@ disp.on("selection", function () {
   pie.drawView();
   
   // SCATTERPLOT
-  scatterplot.polishData();
-  scatterplot.drawView();
+  scatter.polishData();
+  scatter.drawView();
   
   // LINE CHART
   line.polishData();
@@ -35,13 +41,26 @@ disp.on("selection", function () {
 });
 
 var map = new WorldMap("map", width, height);
-map.dispatch = disp;
 var pie = new PieChart("pie", (3/10)*width, height/2);
-pie.dispatch = disp;
 var list = new InfoList("list", (7/10)*width, height/2);
-list.dispatch = disp;
-var scatterplot = new Scatterplot("scatter", (3/10)*width, height/2);
+var scatter = new Scatterplot("scatter", (3/10)*width, height/2);
 var line = new LineGraph("line", (6/10)*width, height/2);
+
+map.dispatch = disp;
+pie.dispatch = disp;
+list.dispatch = disp;
+
+map.year = year;
+pie.year = year;
+list.year = year;
+scatter.year = year;
+
+list.rank = list_rank;
+
+scatter.xAxis = scatter_x_axis;
+scatter.yAxis = scatter_y_axis;
+
+line.yAxis = line_y_axis;
 
 // datasets
 d3.json("https://raw.githubusercontent.com/vsychen/Big-2000-visualizacao-2017-1/master/json/forbes.json", function (d) {
@@ -58,15 +77,12 @@ d3.json("https://raw.githubusercontent.com/vsychen/Big-2000-visualizacao-2017-1/
   pie.polishData();
   pie.drawView();
 
-  scatterplot.setData("Global", dataset);
-  scatterplot.polishData();
-  scatterplot.setXAxis("sales");
-  scatterplot.setYAxis("profits");
-  scatterplot.drawView();
+  scatter.setData("Global", dataset);
+  scatter.polishData();
+  scatter.drawView();
 
   line.setData("Global",dataset);
   line.polishData();
-  line.setYAxis("profits");
   line.drawView();
 
   // world map

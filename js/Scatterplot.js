@@ -6,15 +6,15 @@ class Scatterplot {
       .attr("height", h);
 
     this.id = id;
-    this.w = w - 50;
-    this.h = h - 70;
+    this.w = w - 80;
+    this.h = h - 90;
     this.g = this.canvas.append("g")
-      .attr("transform", "translate(30,40)");
+      .attr("transform", "translate(60,40)");
 
     this.xScale = d3.scaleLinear().rangeRound([0, this.w]);
     this.yScale = d3.scaleLinear().range([this.h, 0]);
-    this.rScale = d3.scaleLinear().range([1,5]);
-    this.cScale = d3.scaleLinear().range(["#0000ff", "#ff0000"]);
+    this.rScale = d3.scaleLinear().range([1,10]);
+    this.cScale = d3.scaleLinear().range(["#0000ff", "#00ff00"]);
 
     this.dataset = [];
   }
@@ -41,42 +41,42 @@ class Scatterplot {
     }
   }
 
-  setXAxis(x) {
-    this.x = x;
-    this.xScale.domain(d3.extent(this.companies, function(d) { return d[x]; }));
-  }
-
-  setYAxis(y) {
-    this.y = y;
-    this.yScale.domain(d3.extent(this.companies, function(d) { return d[y]; }));
-  }
-
   drawView() {
     this.canvas.select(".title").remove();
+	this.g.selectAll(".axis").remove();
     this.g.selectAll(".ball").remove();
 
+    // .title
     this.canvas.append("text")
       .attr("class", "title")
       .attr("transform", "translate(" + ((this.w/2)+23) + "," + ((this.h/15)+5) + ")")
       .text(this.filterName);
 
     var that = this;
-    this.rScale.domain(d3.extent(this.companies, function(d) { return d.rank; }));
+    this.xScale.domain(d3.extent(this.companies, function(d) { return d[that.xAxis]; }));
+    this.yScale.domain(d3.extent(this.companies, function(d) { return d[that.yAxis]; }));
+    this.rScale.domain([d3.max(this.companies, function(d) { return d.rank; }), d3.min(this.companies, function(d) { return d.rank; })]);
     this.cScale.domain([2000,1]);
 
+    // .axis
+    this.g.append("g")
+      .attr("class", "axis")
+      .attr("transform","translate(0," + this.h + ")")
+      .call(d3.axisBottom(this.xScale).ticks(5)).append("text")
+      .attr("fill","#000").attr("x",this.w/2).attr("y",30).text(this.xAxis.toUpperCase() + " (B)");
+
+    this.g.append("g")
+      .attr("class", "axis")
+      .call(d3.axisLeft(this.yScale)).append("text").attr("fill", "#000")
+      .attr("transform", "rotate(-90)").attr("x",-this.h/2).attr("y", -50).attr("dy", "0.71em")
+      .attr("text-anchor", "middle").text(this.yAxis.toUpperCase() + " (B)");
+
+    // .ball
     this.g.selectAll("circle").data(this.companies).enter().append("circle")
       .attr("class", "ball")
-      .attr("cx", function(d) { return that.xScale(d[that.x]);})
-      .attr("cy", function(d) { return that.yScale(d[that.y]); })
+      .attr("cx", function(d) { return that.xScale(d[that.xAxis]);})
+      .attr("cy", function(d) { return that.yScale(d[that.yAxis]); })
       .attr("r", function(d) { return that.rScale(d.rank); })
       .attr("fill", function(d) { return that.cScale(d.rank); });
-
-    this.g.append("g").attr("transform","translate(0," + this.h + ")")
-      .call(d3.axisBottom(this.xScale).ticks(5)).append("text")
-      .attr("fill","#000").attr("y",-6).attr("x",this.w-4).text(this.x.toUpperCase() + "(B)");
-
-    this.g.append("g").call(d3.axisLeft(this.yScale)).append("text").attr("fill", "#000")
-      .attr("transform", "rotate(-90)").attr("y", 6).attr("dy", "0.71em")
-      .attr("text-anchor", "end").text(this.y.toUpperCase() + "(B)");
   }
 }

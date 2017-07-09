@@ -14,6 +14,7 @@ class PieChart {
       .attr("transform", "translate(" + ((w/2)+3) + "," + ((h/2)+20) + ")");
 
     this.dataset = [];
+    this.filter = [];
   }
 
   setData(filterName, data) {

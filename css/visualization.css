@@ -18,11 +18,41 @@ text {
 }
 
 .arc path {
-	stroke:none;
+	stroke: none;
 }
 
 /* List */
 #list {
 	float: right;
-	width: 60vw;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+
+#list table {
+	padding: 0px 10px;
+	table-layout: fixed;
+	word-break: break-all;
+	border-collapse: collapse;
+	cursor: default;
+}
+
+#list #header {
+	background-color: #d3d3d3;
+}
+
+#list .item {
+	text-align: center;
+	border: 5px solid #f0f8ff;
+	border-right: 0;
+	border-left: 0;
+}
+
+#list .item:hover {
+	background-color: #e4e4e4;
+}
+
+/* Scatterplot */
+.ball {
+	stroke: black;
+	stroke-width: 0.5px;
 }

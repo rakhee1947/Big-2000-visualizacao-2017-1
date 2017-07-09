@@ -1,13 +1,29 @@
 class InfoList {
   constructor(id, w, h) {
     this.canvas = d3.select("#"+id)
-    .attr("style", "width: " + (w-20) + "px; height: " + h + "px; overflow: auto;");
+      .attr("style", "width: " + (w-20) + "px; height: " + h + "px;");
 
     this.id = id;
-    this.w = w;
+    this.w = w-40;
     this.h = h;
+    this.col = [{name:"Rank", width:this.w/15},
+      {name:"Company", width:this.w*4/15},
+      {name:"Country", width:this.w*3/15},
+      {name:"Sales", width:this.w/15},
+      {name:"Profits", width:this.w/15},
+      {name:"Assets", width:this.w/15},
+      {name:"Market Value", width:this.w/16}];
+
+    this.table = this.canvas.append("table").attr("width", this.w);
+    this.thead = this.table.append("thead").attr("id", "header");
+    this.tbody = this.table.append("tbody");
+    this.thead.append("tr").selectAll("th")
+      .data(this.col).enter().append("th")
+      .style("width", function(d) { return d.width+"px"; })
+      .text(function(d) { return d.name; });
 
     this.dataset = [];
+    this.filter = [];
   }
   
   setData(data) {
@@ -33,25 +49,14 @@ class InfoList {
   }
 
   drawView() {
-    var columnNames = ["Rank", "Company", "Country", "Sales", "Profits", "Assets", "Market Value"];
+    this.tbody.selectAll(".item").remove();
+
     var columns = ["rank", "name", "country", "sales", "profits", "assets", "market_value"];
-
-    this.canvas.selectAll("table").remove();
-
-    var table = this.canvas.append("table");
-    var thead = table.append("thead");
-    var tbody = table.append("tbody");
-
-    thead.append("tr").selectAll("th")
-      .data(columnNames).enter().append("th")
-      .text(function(d) { return d; });
-
-    var tr = tbody.selectAll("tr")
+    var tr = this.tbody.selectAll("tr")
       .data(this.dataset).enter().append("tr")
       .attr("class", "item");
-
-    var td = tr.selectAll("td")
-      .data(function(row) { return columns.map(function(column) { return {column: column, value: row[column]}; }); })
+    tr.selectAll("td")
+      .data(function(row) { return columns.map(function(column) { return {column:column, value:row[column]}; }); })
       .enter().append("td")
       .text(function(d) { return d.value; });
   }
