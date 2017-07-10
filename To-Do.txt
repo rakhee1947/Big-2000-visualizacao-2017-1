@@ -1,23 +1,22 @@
 WORLD MAP:
 - Highlight Selected Country
-- Restrict Horizontal Pan
+- Reset Country Filter
 - Change scale box
 
 LIST:
-- Develop View
 - Filter for Individual Companies
+- Sort by different classifiers (rank, market value...)
 
 PIE CHART:
 - Gray Chart for Countries with zero companies
+- Filter for Individual Industries
 
 SCATTERPLOT:
 - Zoom & Pan
 - Menu to change Axis
-- Tooltip
 
 LINE CHART:
-- Menu to change Axis (Y)
-- Tooltip
+- Menu to change Axis
 
 GENERAL:
 - If possible, dropdown menu for year selection
