@@ -4,9 +4,9 @@ class WorldMap {
 
     var zoom = d3.zoom()
       .scaleExtent([1,8])
-      .translateExtent([[-100, -100], [width + 90, height + 100]])
+      .translateExtent([[0, -100], [w-20, h + 100]])
       .on("zoom", zoomed)
-      .filter(function () { return !event.button && event.type !== 'wheel'; });
+      .filter(function () { return !event.button && event.type !== 'dblclick'; });
 
     this.canvas = d3.select("#"+id)
       .attr("class", "container")
@@ -45,7 +45,7 @@ class WorldMap {
 
   nextPhase(f, widget) {
     if (widget.filter.indexOf(f.properties.name) === -1) widget.filter.push(f.properties.name);
-    else widget.filter.splice(f.properties.name, 1);
+    else widget.filter.splice(widget.filter.indexOf(f.properties.name), 1);
 
     widget.dispatch.call("selection", {caller:widget.id, filterName:(widget.filter.length > 0)?widget.filter:"Global", data:this.rawDataset.filter(function(d) { if (widget.filter.length === 0 || widget.filter.indexOf(d.country) !== -1) return d; })});
   }
@@ -136,7 +136,7 @@ class WorldMap {
         div.transition().duration(200).style("opacity", 0);  
         div.html("");
       })
-      .on("click", function(d) { that.nextPhase(d, that); });
+      .on("dblclick", function(d) { that.nextPhase(d, that); });
 
     this.canvas
       .append("rect")

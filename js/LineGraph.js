@@ -11,6 +11,10 @@ class LineGraph {
     this.g = this.canvas.append("g")
       .attr("transform", "translate(60,40)");
 
+    this.change = {profits: "Profits", assets:"Assets", market_value:"Market Value", sales:"Sales"}
+
+    this.tooltipDiv = this.canvas.append("div").attr("class", "tooltip").style("opacity", 0);
+
     this.xScale = d3.scaleTime().domain([new Date(2011,0,1), new Date(2016,0,1)]).range([0, this.w]);
     this.yScale = d3.scaleLinear().range([this.h, 0]);
     this.cScale = d3.scaleLinear().range(["#000", "#00f"]);
@@ -54,6 +58,9 @@ class LineGraph {
     this.g.selectAll(".axis").remove();
     this.g.selectAll(".history").remove();
 
+	var div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
     // .title
     this.canvas.append("text")
       .attr("class", "title")
@@ -75,15 +82,16 @@ class LineGraph {
       .attr("class", "axis")
       .call(d3.axisLeft(this.yScale)).append("text").attr("fill", "#000")
       .attr("transform", "rotate(-90)").attr("x",-this.h/2).attr("y", -50).attr("dy", "0.71em")
-      .attr("text-anchor", "middle").text(this.yAxis.toUpperCase() + " (B)");
+      .attr("text-anchor", "middle").text(this.change[this.yAxis].toUpperCase() + " (B)");
 
     var line = d3.line()
       .x(function(d) { debugger;return xScale(new Date(d.year,0,1)); })
       .y(function(d) { return that.yScale(d[that.yAxis]); });
 
+	var lineData = [];
     for(var i = 0; i < this.industries.length; i++) {
         var points = "";
-
+		
         for(var j = 0; j < 6; j++) {
             if(j == 0) {
                 points = this.xScale(new Date(2011+j,0,1))+","+this.yScale(this.industries[i][j][this.yAxis]);
@@ -91,12 +99,24 @@ class LineGraph {
                 points += " " + this.xScale(new Date(2011+j,0,1))+","+this.yScale(this.industries[i][j][this.yAxis]);
             }
         }
+		lineData.push({indName:this.industryNames[i],path:points,post:this.industries[i][5].rank});
+	}	
 
-        this.g.append("g").attr("class","history")
-          .attr("fill", "none")
-          .append("polyline")
-          .attr("points", points)
-          .attr("stroke", function() { return that.cScale(that.industries[i][5].rank);});
-    }
+	this.g.append("g").attr("class","history")
+	    .selectAll("polyline").data(lineData).enter().append("polyline")
+		.attr("fill","none")
+		.attr("points", function(d){ return d.path;})
+		.attr("stroke-width", 3)
+		.attr("stroke", function(d) { return that.cScale(d.post);})
+		.on('mouseover', function(d){
+			div.transition().duration(200).style("opacity", .9); 
+			div.html("<span style='color:red'>"+d.indName+"</span>")
+			.style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY - 28) + "px");
+		  })
+		  .on('mouseout', function(d){
+			div.transition().duration(200).style("opacity", 0);  
+			div.html("");
+		  });
+	
   }
 }
