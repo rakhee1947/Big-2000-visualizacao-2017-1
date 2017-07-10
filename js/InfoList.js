@@ -1,6 +1,7 @@
 class InfoList {
   constructor(id, w, h) {
     this.canvas = d3.select("#"+id)
+	  .attr("transform","translate(0, 50)")
       .attr("style", "width: " + (w-20) + "px; height: " + h + "px;");
 
     this.id = id;
