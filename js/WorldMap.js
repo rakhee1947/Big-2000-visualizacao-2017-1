@@ -45,7 +45,7 @@ class WorldMap {
 
   nextPhase(f, widget) {
     if (widget.filter.indexOf(f.properties.name) === -1) widget.filter.push(f.properties.name);
-    else widget.filter.splice(f.properties.name, 1);
+    else widget.filter.splice(widget.filter.indexOf(f.properties.name), 1);
 
     widget.dispatch.call("selection", {caller:widget.id, filterName:(widget.filter.length > 0)?widget.filter:"Global", data:this.rawDataset.filter(function(d) { if (widget.filter.length === 0 || widget.filter.indexOf(d.country) !== -1) return d; })});
   }
