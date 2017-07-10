@@ -17,16 +17,18 @@ html, body {
 
 #home div {
   position: absolute;
-  top: 55%;
+  top: 40%;
   left: 50%;
   height: 30%;
   width: 50%;
   margin: -10% 0 0 -25%;
   text-align: center;
+  font-size: 2.5vh;
 }
 
 #about {
-  background-color: #d3d3d3;
+  background-color: #e67e22;
+  color: #ffffff;
   padding-bottom: 20px;
   direction: rtl;
   text-align: justify;
@@ -34,7 +36,7 @@ html, body {
 }
 
 #about .textbox {
-  width: 80%;
+  width: 70%;
   align: right;
   margin: 20px 50px;
 }
@@ -46,7 +48,7 @@ html, body {
   overflow: hidden;
 }
 
-#questions .list {
+.list {
   align: left;
   margin: 20px 50px;
 }
@@ -56,13 +58,21 @@ html, body {
   padding: 1vh;
 }
 
+#curiosities {
+  background-color: #e67e22;
+  color: #ffffff;
+  padding-bottom: 20px;
+  text-align: justify;
+  overflow: hidden;
+}
+
 #curiosities-list li {
   list-style-type: circle;
   padding: 1vh;
 }
 
 #team {
-  background-color: #d3d3d3;
+  background-color: #ffffff;
   padding-bottom: 20px;
   overflow: hidden;
 }
@@ -75,7 +85,8 @@ html, body {
 }
 
 #files {
-  background-color: #ffffff;
+  background-color: #e67e22;
+  color: #ffffff;
   padding-bottom: 20px;
   overflow: hidden;
 }
