@@ -123,13 +123,15 @@ class PieChart {
         .on('mouseout', function(d) {
           div.transition().duration(200).style("opacity", 0);  
           div.html("");
-        })
+        }).on('mousedown', function() { d3.event.preventDefault(); })
         .on('dblclick', function(d) {
 		  if(d3.select(this).style("stroke-width") != 3) {
           d3.select(this).style("stroke-width",3).style("stroke","white");
 		  } else {
 			d3.select(this).style("stroke-width",1.).style("stroke","white");
 		  }
+          div.transition().duration(200).style("opacity", 0);  
+          div.html("");
           that.nextPhase(d, that);
         });
 
