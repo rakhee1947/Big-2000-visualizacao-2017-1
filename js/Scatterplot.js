@@ -19,7 +19,7 @@ class Scatterplot {
 	  
     this.xScale = d3.scaleLinear().rangeRound([0, this.w]);
     this.yScale = d3.scaleLinear().range([this.h, 0]);
-    this.rScale = d3.scaleLinear().range([1,10]);
+    this.rScale = d3.scaleLinear().range([2,10]);
     this.cScale = d3.scaleLinear().range(["#0000ff", "#00ff00"]);
 
     this.dataset = [];
