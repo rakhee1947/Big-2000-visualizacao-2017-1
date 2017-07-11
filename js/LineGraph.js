@@ -86,7 +86,7 @@ class LineGraph {
     for(var i = 0; i < this.industries.length; i++) {
       for(var j = 0; j < this.industries[i].length; j++) {
         if(this.industries[i][j] == null) {
-          this.industries[i][j] = {name:this.industryNames[i], profits:0, sales:0, market_value:0, assets:0, year:2011+j, rank:-1};
+          this.industries[i][j] = {name:this.industryNames[i], profits:0, sales:0, market_value:0, assets:0, year:2011+j, rank:2001};
         }
       }
     }    
@@ -126,7 +126,7 @@ class LineGraph {
 
     var that = this;
     this.yDataset = this.join;
-    this.yDataset.push({name:"Dummy", profits:0, sales:0, market_value:0, assets:0, year:0, rank:0});
+    this.yDataset.push({name:"Dummy", profits:0, sales:0, market_value:0, assets:0, year:0, rank:2001});
     this.yScale.domain(d3.extent(this.yDataset, function(d) { return d[that.yAxis]; }));
     this.cScale.domain([2000,1]);
 
