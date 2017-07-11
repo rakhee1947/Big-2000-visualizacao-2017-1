@@ -18,6 +18,7 @@ class LineGraph {
     this.xScale = d3.scaleTime().domain([new Date(2011,0,1), new Date(2016,0,1)]).range([0, this.w]);
     this.yScale = d3.scaleLinear().range([this.h, 0]);
     this.cScale = d3.scaleLinear().range(["#000", "#00f"]);
+    this.rScale = d3.scaleLinear().range([1,5]);
 
     this.dataset = [];
   }
@@ -47,7 +48,7 @@ class LineGraph {
     for(var i = 0; i < this.industries.length; i++) {
       for(var j = 0; j < this.industries[i].length; j++) {
         if(this.industries[i][j] == null) {
-          this.industries[i][j] = {name:this.industryNames[i], profits:0, sales:0, market_value:0, assets:0, year:2011+j, rank:2001};
+          this.industries[i][j] = {name:this.industryNames[i], profits:0, sales:0, market_value:0, assets:0, year:2011+j, rank:-1};
         }
       }
     }    
@@ -57,6 +58,7 @@ class LineGraph {
     this.canvas.select(".title").remove();
     this.g.selectAll(".axis").remove();
     this.g.selectAll(".history").remove();
+    this.g.selectAll(".ball").remove();
 
 	var div = d3.select("body").append("div")
     .attr("class", "tooltip")
@@ -98,7 +100,7 @@ class LineGraph {
       .x(function(d) { debugger;return xScale(new Date(d.year,0,1)); })
       .y(function(d) { return that.yScale(d[that.yAxis]); });
 
-	var lineData = [];
+	var ballData = []
     for(var i = 0; i < this.industries.length; i++) {
         var points = "";
 		
@@ -108,25 +110,32 @@ class LineGraph {
             } else {
                 points += " " + this.xScale(new Date(2011+j,0,1))+","+this.yScale(this.industries[i][j][this.yAxis]);
             }
+			ballData.push({name: this.industryNames[i], year: (2011+j), yAxis: this.industries[i][j][this.yAxis], rank: this.industries[i][j].rank});
         }
-		lineData.push({indName:this.industryNames[i],path:points,post:this.industries[i][5].rank});
-	}	
-
-	this.g.append("g").attr("class","history")
-	    .selectAll("polyline").data(lineData).enter().append("polyline")
+		
+		this.g.append("g").attr("class","history").append("polyline")
 		.attr("fill","none")
-		.attr("points", function(d){ return d.path;})
-		.attr("stroke-width", 3)
-		.attr("stroke", function(d) { return that.cScale(d.post);})
-		.on('mouseover', function(d){
-			div.transition().duration(200).style("opacity", .9); 
-			div.html("<span style='color:red'>"+d.indName+"</span>")
-			.style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY - 28) + "px");
-		  })
-		  .on('mouseout', function(d){
-			div.transition().duration(200).style("opacity", 0);  
-			div.html("");
-		  });
+		.attr("points", points)
+		.attr("stroke-width", 1)
+		.attr("stroke", function() { return that.cScale(that.industries[i][5].rank);});
+		
+	}	
 	
+	this.g.selectAll("circle").data(ballData).enter().append("circle")
+      .attr("class", "ball")
+      .attr("cx", function(d) { return that.xScale((new Date(d.year,0,1)));})
+      .attr("cy", function(d) { return that.yScale(d.yAxis); })
+      .attr("r", function(d) { if(d.rank == -1){ return 0; } else { return 3; }})
+      .attr("fill", function(d) { return that.cScale(d.rank); })
+	  .on('mouseover', function(d){
+	    div.transition().duration(200).style("opacity", .9); 
+        div.html("<span style='color:red'>"+d.name+"</span> - Rank "+d.rank+"<br/>Year: " 
+		+d.year+"<br/>"+that.change[that.yAxis]+" (B): "+d.yAxis)
+        .style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY - 28) + "px");
+      })
+      .on('mouseout', function(d){
+        div.transition().duration(200).style("opacity", 0);  
+        div.html("");
+      });
   }
 }
