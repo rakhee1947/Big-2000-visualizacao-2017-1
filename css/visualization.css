@@ -7,12 +7,16 @@ text {
 }
 
 .title {
+	font-align: center;
+	align: center;
 	font-size: 12px;
 	fill: #000000;
 	text-anchor: middle;
 }
 
 .total {
+	font-align: center;
+	align: center;
 	font-size: 12px;
 	fill: #000000;
 	text-anchor: middle;

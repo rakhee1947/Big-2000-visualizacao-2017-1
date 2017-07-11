@@ -43,8 +43,8 @@ disp.on("selection", function () {
 var map = new WorldMap("map", width, height);
 var pie = new PieChart("pie", (3/10)*width, height/2);
 var list = new InfoList("list", (7/10)*width, height/2);
-var scatter = new Scatterplot("scatter", (3/10)*width, height/2);
-var line = new LineGraph("line", (6/10)*width, height/2);
+var scatter = new Scatterplot("scatter", (3/10)*width, (height/2)+80);
+var line = new LineGraph("line", (6/10)*width, (height/2)+80);
 
 map.dispatch = disp;
 pie.dispatch = disp;

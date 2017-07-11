@@ -7,9 +7,9 @@ class LineGraph {
       
     this.id = id;
     this.w = w - 80;
-    this.h = h - 90;
+    this.h = h - 110;
     this.g = this.canvas.append("g")
-      .attr("transform", "translate(60,40)");
+      .attr("transform", "translate(60,70)");
 
     this.change = {profits: "Profits", assets:"Assets", market_value:"Market Value", sales:"Sales"}
     this.tooltipDiv = this.canvas.append("div").attr("class", "tooltip").style("opacity", 0);
@@ -65,7 +65,7 @@ class LineGraph {
     this.industryNames = [];
     this.industries = [];
     this.join = this.filteredByCompany.filter(function(d) { return (that.filteredByCountry.length > 0) ? that.filteredByCountry.indexOf(d) !== -1 : d; }).filter(function(d) { return (that.filteredByIndustry.length > 0) ? that.filteredByIndustry.indexOf(d) !== -1 : d; });
-console.log(this.filteredByCompany);
+
     for(var i = 0; i < this.join.length; i++) {
       var a = this.industryNames.indexOf(this.join[i].name);
 
@@ -90,6 +90,7 @@ console.log(this.filteredByCompany);
 
   drawView() {
     this.canvas.select(".title").remove();
+	 this.canvas.select(".total").remove();
     this.g.selectAll(".axis").remove();
     this.g.selectAll(".history").remove();
     this.g.selectAll(".ball").remove();
@@ -100,14 +101,24 @@ console.log(this.filteredByCompany);
 
     // .title
     var quantity = this.filterCountry.length;
-    var sub = this.canvas.append("text")
+    var subCountry = this.canvas.append("text")
         .attr("class", "title")
-        .attr("transform", "translate("+((this.w/2)+3)+","+((this.h/15)+5)+")");
+        .attr("transform", "translate("+((this.w/2)+43)+","+((this.h/15)+5)+")");
 
-    if(quantity === 0) sub.text("Global");
-    else if(quantity < 3) sub.text(this.filterCountry);
-    else if(quantity === 3) sub.text(this.filterCountry[0]+","+this.filterCountry[1]+" and 1 other country");
-    else sub.text(this.filterCountry[0]+","+this.filterCountry[1]+" and "+(quantity-2)+" other countries");
+    if(quantity === 0) subCountry.text("Global");
+    else if(quantity < 3) subCountry.text(this.filterCountry);
+    else if(quantity === 3) subCountry.text(this.filterCountry[0]+","+this.filterCountry[1]+" and 1 other country");
+    else subCountry.text(this.filterCountry[0]+","+this.filterCountry[1]+" and "+(quantity-2)+" other countries");
+
+	quantity = this.filterIndustry.length;
+    var subIndustry = this.canvas.append("text")
+        .attr("class", "total")
+        .attr("transform", "translate("+((this.w/2)+43)+","+((this.h/15)+25)+")");
+
+    if(quantity === 0) subIndustry.text("All Industries");
+    else if(quantity < 3) subIndustry.text(this.filterIndustry);
+    else if(quantity === 3) subIndustry.text(this.filterIndustry[0]+","+this.filterIndustry[1]+" and 1 other industry");
+    else subIndustry.text(this.filterIndustry[0]+","+this.filterIndustry[1]+" and "+(quantity-2)+" other industries");
 
     var that = this;
 	this.yDataset = this.join;
