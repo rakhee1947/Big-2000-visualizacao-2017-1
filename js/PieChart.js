@@ -13,6 +13,8 @@ class PieChart {
     this.g = this.canvas.append("g")
       .attr("transform", "translate(" + ((w/2)+3) + "," + ((h/2)+25) + ")");
 
+	this.tooltipDiv = this.canvas.append("div").attr("class", "tooltip").style("opacity", 0);
+
     this.dataset = [];
     this.filter = [];
   }
@@ -48,7 +50,11 @@ class PieChart {
 	this.canvas.select(".total").remove();
     this.g.selectAll(".arc").remove();
     this.g.selectAll(".slice-text").remove();
-
+	
+	var div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+	
 	if(this.filterName.length > 2 && this.filterName != "Global"){
 	   var quantity = this.filterName.length;
 	   var countryAdd = "country";
@@ -99,8 +105,20 @@ class PieChart {
 		arc.append("path")
 		  .attr("d", path)
 		  .attr("fill", function(d) { return color(d.data.industry); })
-		  .on('mouseover', tip.show)
-		  .on('mouseout', tip.hide);
+		  .on('mouseover', function(d){
+		   
+			div.transition().duration(200).style("opacity", .9); 
+			div.html(d.data.industry+"<br>Quantidade: <span style='color:red'>" + d.data.quantity + "</span>")
+			.style("left", (d3.event.pageX) + "px").style("top", (d3.event.pageY - 28) + "px");
+		  })
+		  .on('mouseout', function(d){
+			div.transition().duration(200).style("opacity", 0);  
+			div.html("");
+		  })
+		  .on('dblclick', function(d){
+			div.transition().duration(200).style("opacity", 0);  
+			div.html("");
+		  });
 
 		arc.append("text")
 		  .attr("class", "slice-text")
