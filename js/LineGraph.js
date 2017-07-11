@@ -80,7 +80,9 @@ class LineGraph {
 	}
 
     var that = this;
-    this.yScale.domain(d3.extent(this.dataset, function(d) { return d[that.yAxis]; }));
+	this.yDataset = this.dataset;
+	this.yDataset.push({name:"Dummy", profits:0, sales:0, market_value:0, assets:0, year:0, rank:0});
+    this.yScale.domain(d3.extent(this.yDataset, function(d) { return d[that.yAxis]; }));
     this.cScale.domain([2000,1]);
 
     // .axis
