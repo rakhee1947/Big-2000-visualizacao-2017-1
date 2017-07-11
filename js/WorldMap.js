@@ -136,7 +136,13 @@ class WorldMap {
         div.transition().duration(200).style("opacity", 0);  
         div.html("");
       })
-      .on("dblclick", function(d) { that.nextPhase(d, that); });
+      .on("dblclick", function(d) { 
+		if(d3.select(this).style("stroke-width") != 3){
+			d3.select(this).style("stroke-width",3).style("stroke","white");
+		}else{
+			d3.select(this).style("stroke-width",1.).style("stroke","white");
+		}
+		that.nextPhase(d, that); });
 
     this.canvas
       .append("rect")

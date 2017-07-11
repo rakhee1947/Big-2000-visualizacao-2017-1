@@ -18,6 +18,11 @@ text {
 	text-anchor: middle;
 }
 
+/* World Map */
+#country.selected{
+	stroke-width: 3px;
+}
+
 
 /* Pie Chart */
 #pie .slice-text {

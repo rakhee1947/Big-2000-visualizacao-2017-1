@@ -1,5 +1,4 @@
 WORLD MAP:
-- Highlight Selected Country
 - Reset Country Filter
 - Change scale box
 
