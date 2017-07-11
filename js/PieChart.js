@@ -109,7 +109,8 @@ class PieChart {
     } else {
       var arc = this.g.selectAll(".arc")
         .data(pie(this.industries)).enter().append("g")
-        .attr("class", "arc");          
+        .attr("class", "arc");    
+      var that = this;		
 
       arc.append("path")
         .attr("d", path)
@@ -129,8 +130,7 @@ class PieChart {
 		  } else {
 			d3.select(this).style("stroke-width",1.).style("stroke","white");
 		  }
-          div.transition().duration(200).style("opacity", 0);  
-          div.html("");
+          that.nextPhase(d, that);
         });
 
       arc.append("text")
@@ -138,5 +138,10 @@ class PieChart {
         .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
         .text(function(d) { return d.data.quantity; });
     }
+  }
+
+  // AUXILIARY FUNCTIONS
+  nextPhase(f, widget) {
+    widget.dispatch.call("selection", {caller:widget.id, filter:f.data.industry});
   }
 }

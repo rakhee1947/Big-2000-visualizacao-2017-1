@@ -29,9 +29,9 @@ class WorldMap {
 
     this.projection = d3.geoMercator().translate([w/2,h/2]).scale(width/(2*Math.PI));
     this.path = d3.geoPath().projection(this.projection);
+
     this.dataset = [];
     this.filteredByYear = [];
-    this.filter = [];
 
     function zoomed() {
       that.canvas.selectAll(".country").attr("transform", d3.event.transform);
@@ -194,9 +194,6 @@ class WorldMap {
   }
 
   nextPhase(f, widget) {
-    if (widget.filter.indexOf(f.properties.name) === -1) widget.filter.push(f.properties.name);
-    else widget.filter.splice(widget.filter.indexOf(f.properties.name), 1);
-
     widget.dispatch.call("selection", {caller:widget.id, filter:f.properties.name});
   }
 }

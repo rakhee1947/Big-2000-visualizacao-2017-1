@@ -77,4 +77,9 @@ class InfoList {
       .enter().append("td")
       .text(function(d) { return d.value; });
   }
+
+  // AUXILIARY FUNCTIONS
+  nextPhase(f, widget) {
+    widget.dispatch.call("selection", {caller:widget.id, filter:f.properties.name});
+  }
 }

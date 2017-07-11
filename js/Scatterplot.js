@@ -70,7 +70,7 @@ class Scatterplot {
   polishData() {
     var that = this;
     this.companies = [];
-    var join = this.filteredByYear.filter(function(d) { return (that.filteredByCompany.length > 0) ? that.filteredByCompany.indexOf(d) !== -1 : d; }).filter(function(d) { return (that.filteredByCountry.length > 0) ? that.filteredByCountry.indexOf(d) !== -1 : d; }).filter(function(d) { return (that.filteredByIndustry.length > 0) ? that.filteredByIndustry.indexOf(d) !== -1 : d; });
+    this.join = this.filteredByYear.filter(function(d) { return (that.filteredByCompany.length > 0) ? that.filteredByCompany.indexOf(d) !== -1 : d; }).filter(function(d) { return (that.filteredByCountry.length > 0) ? that.filteredByCountry.indexOf(d) !== -1 : d; }).filter(function(d) { return (that.filteredByIndustry.length > 0) ? that.filteredByIndustry.indexOf(d) !== -1 : d; });
 
     for(var i = 0; i < this.dataset.length; i++) {
       var company = {
@@ -118,9 +118,9 @@ class Scatterplot {
     else subIndustry.text(this.filterIndustry[0]+","+this.filterIndustry[1]+" and "+(quantity-2)+" other industries");
 	
     var that = this;
-    this.xScale.domain(d3.extent(this.companies, function(d) { return d[that.xAxis]; }));
-    this.yScale.domain(d3.extent(this.companies, function(d) { return d[that.yAxis]; }));
-    this.rScale.domain([d3.max(this.companies, function(d) { return d.rank; }), d3.min(this.companies, function(d) { return d.rank; })]);
+    this.xScale.domain(d3.extent(this.join, function(d) { return d[that.xAxis]; }));
+    this.yScale.domain(d3.extent(this.join, function(d) { return d[that.yAxis]; }));
+    this.rScale.domain([d3.max(this.join, function(d) { return d.rank; }), d3.min(this.join, function(d) { return d.rank; })]);
     this.cScale.domain([2000,1]);
 
     // .axis
@@ -138,7 +138,7 @@ class Scatterplot {
       .attr("text-anchor", "middle").text(this.change[this.yAxis].toUpperCase() + " (B)");
 
     // .ball
-    this.g.selectAll("circle").data(this.companies).enter().append("circle")
+    this.g.selectAll("circle").data(this.join).enter().append("circle")
       .attr("class", "ball")
       .attr("cx", function(d) { return that.xScale(d[that.xAxis]);})
       .attr("cy", function(d) { return that.yScale(d[that.yAxis]); })

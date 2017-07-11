@@ -15,12 +15,12 @@ disp.on("selection", function () {
     scatter.applyFilterCountry(this.filter);
     line.applyFilterCountry(this.filter);
   } else if(this.caller === "pie") {
-    list.setFilter("industry", this.filter);
-    scatter.setFilter("industry", this.filter);
-    line.setFilter("industry", this.filter);
+    list.applyFilterIndustry(this.filter);
+    scatter.applyFilterIndustry(this.filter);
+    line.applyFilterIndustry(this.filter);
   } else if(this.caller === "list") {
-    scatter.setFilter("company", this.filter);
-    line.setFilter("company", this.filter);
+    scatter.applyFilterCompany(this.filter);
+    line.applyFilterCompany(this.filter);
   }
 
   // LIST
@@ -51,16 +51,13 @@ pie.dispatch = disp;
 list.dispatch = disp;
 
 map.year = pie.year = list.year = scatter.year = year;
-
 list.rank = list_rank;
-
 scatter.xAxis = scatter_x_axis;
 scatter.yAxis = scatter_y_axis;
-
 line.yAxis = line_y_axis;
 
 // datasets
-d3.json("https://raw.githubusercontent.com/vsychen/Big-2000-visualizacao-2017-1/master/json/forbes.json", function (d) {
+d3.json("https://raw.githubusercontent.com/vsychen/Big-2000-visualizacao-2017-1/master/json/forbes.json", function(d) {
   var dataset = d.companies;
 
   map.setData(dataset);
@@ -87,7 +84,7 @@ d3.json("https://raw.githubusercontent.com/vsychen/Big-2000-visualizacao-2017-1/
   line.drawView();
 
   // world map
-  d3.json("https://rawgit.com/vsychen/Big-2000-visualizacao-2017-1/master/json/world-topo-min.json", function (d) {
+  d3.json("https://rawgit.com/vsychen/Big-2000-visualizacao-2017-1/master/json/world-topo-min.json", function(d) {
     map.setMap(topojson.feature(d, d.objects.countries).features);
   });
 });
