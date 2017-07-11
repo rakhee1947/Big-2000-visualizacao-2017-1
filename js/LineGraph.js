@@ -1,9 +1,9 @@
 class LineGraph {
   constructor(id, w, h) {
     this.canvas = d3.select("#"+id)
-      .attr("class","container")
-      .attr("width",w)
-      .attr("height",h);
+      .attr("class", "container")
+      .attr("width", w)
+      .attr("height", h);
       
     this.id = id;
     this.w = w - 80;
@@ -12,36 +12,70 @@ class LineGraph {
       .attr("transform", "translate(60,40)");
 
     this.change = {profits: "Profits", assets:"Assets", market_value:"Market Value", sales:"Sales"}
-
     this.tooltipDiv = this.canvas.append("div").attr("class", "tooltip").style("opacity", 0);
 
     this.xScale = d3.scaleTime().domain([new Date(2011,0,1), new Date(2016,0,1)]).range([0, this.w]);
     this.yScale = d3.scaleLinear().range([this.h, 0]);
-    this.cScale = d3.scaleLinear().range(["#000", "#00f"]);
     this.rScale = d3.scaleLinear().range([1,5]);
+    this.cScale = d3.scaleLinear().range(["#000", "#00f"]);
 
     this.dataset = [];
+    this.filterCountry = [];
+    this.filterIndustry = [];
+    this.filterCompany = [];
+
+    this.filteredByCountry = [];
+    this.filteredByIndustry = [];
+    this.filteredByCompany = [];
   }
 
-  setData(filterName, data) {
-    this.filterName = filterName;
+  setData(data) {
     this.dataset = data;
   }
 
+  applyFilterCountry(country) {
+    var i = this.filterCountry.indexOf(country);
+    if(i === -1) this.filterCountry.push(country);
+    else this.filterCountry.splice(i,1);
+
+    var that = this;
+    this.filteredByCountry = this.dataset.filter(function(d) { if(that.filterCountry.length === 0 || that.filterCountry.indexOf(d.country) !== -1) return d; });
+  }
+
+  applyFilterIndustry(industry) {
+    var i = this.filterIndustry.indexOf(industry);
+    if(i === -1) this.filterIndustry.push(industry);
+    else this.filterIndustry.splice(i,1);
+
+    var that = this;
+    this.filteredByIndustry = this.dataset.filter(function(d) { if(that.filterIndustry.length === 0 || that.filterIndustry.indexOf(d.industry) !== -1) return d; });
+  }
+
+  applyFilterCompany(company) {
+    var i = this.filterCompany.indexOf(company);
+    if(i === -1) this.filterCompany.push(company);
+    else this.filterCompany.splice(i,1);
+
+    var that = this;
+    this.filteredByCompany = this.dataset.filter(function(d) { if(that.filterCompany.length === 0 || that.filterCompany.indexOf(d.company) !== -1) return d; });
+  }
+
   polishData() {
+    var that = this;
     this.industryNames = [];
     this.industries = [];
-
-    for(var i = 0; i < this.dataset.length; i++) {
-      var a = this.industryNames.indexOf(this.dataset[i].name);
+    this.join = this.filteredByCompany.filter(function(d) { return (that.filteredByCountry.length > 0) ? that.filteredByCountry.indexOf(d) !== -1 : d; }).filter(function(d) { return (that.filteredByIndustry.length > 0) ? that.filteredByIndustry.indexOf(d) !== -1 : d; });
+console.log(this.filteredByCompany);
+    for(var i = 0; i < this.join.length; i++) {
+      var a = this.industryNames.indexOf(this.join[i].name);
 
       if(a == -1) {
         var newL = [null,null,null,null,null,null];
-        newL[(this.dataset[i].year)-2011] = this.dataset[i];
+        newL[(this.join[i].year)-2011] = this.join[i];
         this.industries.push(newL);
-        this.industryNames.push(this.dataset[i].name);
+        this.industryNames.push(this.join[i].name);
       } else {
-        this.industries[a][(this.dataset[i].year)-2011] = this.dataset[i];
+        this.industries[a][(this.join[i].year)-2011] = this.join[i];
       }
     }
 
@@ -63,24 +97,20 @@ class LineGraph {
 	var div = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
+
     // .title
-    if(this.filterName.length > 2 && this.filterName != "Global"){
-	   var quantity = this.filterName.length;
-	   var countryAdd = "country";
-	   if((quantity-2) > 1){ countryAdd = "countries"; }
-       this.canvas.append("text")
-      .attr("class", "title")
-      .attr("transform", "translate(" + ((this.w/2)+23) + "," + ((this.h/15)+5) + ")")
-      .text(this.filterName[0]+","+this.filterName[1]+" and "+(quantity-2)+" "+countryAdd);
-	}else{
-		this.canvas.append("text")
-      .attr("class", "title")
-      .attr("transform", "translate(" + ((this.w/2)+23) + "," + ((this.h/15)+5) + ")")
-      .text(this.filterName);
-	}
+    var quantity = this.filterCountry.length;
+    var sub = this.canvas.append("text")
+        .attr("class", "title")
+        .attr("transform", "translate("+((this.w/2)+3)+","+((this.h/15)+5)+")");
+
+    if(quantity === 0) sub.text("Global");
+    else if(quantity < 3) sub.text(this.filterCountry);
+    else if(quantity === 3) sub.text(this.filterCountry[0]+","+this.filterCountry[1]+" and 1 other country");
+    else sub.text(this.filterCountry[0]+","+this.filterCountry[1]+" and "+(quantity-2)+" other countries");
 
     var that = this;
-	this.yDataset = this.dataset;
+	this.yDataset = this.join;
 	this.yDataset.push({name:"Dummy", profits:0, sales:0, market_value:0, assets:0, year:0, rank:0});
     this.yScale.domain(d3.extent(this.yDataset, function(d) { return d[that.yAxis]; }));
     this.cScale.domain([2000,1]);

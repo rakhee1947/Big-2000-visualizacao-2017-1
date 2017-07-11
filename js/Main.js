@@ -10,31 +10,31 @@ var line_y_axis = "profits";
 var disp = d3.dispatch("selection");
 disp.on("selection", function () {
   if(this.caller === "map") {
-    list.setData(this.data);
-    pie.setData(this.filterName, this.data);
-    scatter.setData(this.filterName, this.data);
-    line.setData(this.filterName, this.data);
+    pie.applyFilterCountry(this.filter);
+    list.applyFilterCountry(this.filter);
+    scatter.applyFilterCountry(this.filter);
+    line.applyFilterCountry(this.filter);
   } else if(this.caller === "pie") {
-    list.setData(this.data);
-    scatter.setData(this.filterName, this.data);
-    line.setData(this.filterName, this.data);
+    list.setFilter("industry", this.filter);
+    scatter.setFilter("industry", this.filter);
+    line.setFilter("industry", this.filter);
   } else if(this.caller === "list") {
-    scatter.setData(this.filterName, this.data);
-    line.setData(this.filterName, this.data);
+    scatter.setFilter("company", this.filter);
+    line.setFilter("company", this.filter);
   }
 
   // LIST
   list.polishData();
   list.drawView();
-  
+
   // PIE CHART
   pie.polishData();
   pie.drawView();
-  
+
   // SCATTERPLOT
   scatter.polishData();
   scatter.drawView();
-  
+
   // LINE CHART
   line.polishData();
   line.drawView();
@@ -50,10 +50,7 @@ map.dispatch = disp;
 pie.dispatch = disp;
 list.dispatch = disp;
 
-map.year = year;
-pie.year = year;
-list.year = year;
-scatter.year = year;
+map.year = pie.year = list.year = scatter.year = year;
 
 list.rank = list_rank;
 
@@ -67,21 +64,25 @@ d3.json("https://raw.githubusercontent.com/vsychen/Big-2000-visualizacao-2017-1/
   var dataset = d.companies;
 
   map.setData(dataset);
+  map.applyFilterYear(year);
   map.polishData();
 
-  list.setData(dataset);
-  list.polishData();
-  list.drawView();
-
-  pie.setData("Global", dataset);
+  pie.setData(dataset);
+  pie.applyFilterYear(year);
   pie.polishData();
   pie.drawView();
 
-  scatter.setData("Global", dataset);
+  list.setData(dataset);
+  list.applyFilterYear(year);
+  list.polishData();
+  list.drawView();
+
+  scatter.setData(dataset);
+  scatter.applyFilterYear(year);
   scatter.polishData();
   scatter.drawView();
 
-  line.setData("Global",dataset);
+  line.setData(dataset);
   line.polishData();
   line.drawView();
 
@@ -90,3 +91,20 @@ d3.json("https://raw.githubusercontent.com/vsychen/Big-2000-visualizacao-2017-1/
     map.setMap(topojson.feature(d, d.objects.countries).features);
   });
 });
+
+function setYear(year) {
+    map.applyFilterYear(year);
+    pie.applyFilterYear(year);
+    list.applyFilterYear(year);
+    scatter.applyFilterYear(year);
+
+    map.polishData();
+    pie.polishData();
+    list.polishData();
+    scatter.polishData();
+
+    map.drawView();
+    pie.drawView();
+    list.drawView();
+    scatter.drawView();
+}

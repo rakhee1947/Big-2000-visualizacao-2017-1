@@ -23,29 +23,46 @@ class InfoList {
       .text(function(d) { return d.name; });
 
     this.dataset = [];
-    this.filter = [];
+    this.filterCountry = [];
+    this.filterIndustry = [];
+
+    this.filteredByYear = [];
+    this.filteredByCountry = [];
+    this.filteredByIndustry = [];
   }
-  
+
   setData(data) {
-    this.dataset = data.filter(function(d) { if(d.year === 2016) return d; });
+    this.dataset = data;
+  }
+
+  applyFilterYear(year) {
+    var that = this;
+    this.year = year;
+    this.filteredByYear = this.dataset.filter(function(d) { if(d.year === year) return d; });
+  }
+
+  applyFilterCountry(country) {
+    var i = this.filterCountry.indexOf(country);
+    if(i === -1) this.filterCountry.push(country);
+    else this.filterCountry.splice(i,1);
+
+    var that = this;
+    this.filteredByCountry = this.dataset.filter(function(d) { if(that.filterCountry.length === 0 || that.filterCountry.indexOf(d.country) !== -1) return d; });
+  }
+
+  applyFilterIndustry(industry) {
+    var i = this.filterIndustry.indexOf(industry);
+    if(i === -1) this.filterIndustry.push(industry);
+    else this.filterIndustry.splice(i,1);
+
+    var that = this;
+    this.filteredByIndustry = this.dataset.filter(function(d) { if(that.filterIndustry.length === 0 || that.filterIndustry.indexOf(d.industry) !== -1) return d; });
   }
 
   polishData() {
+    var that = this;
     this.companies = [];
-
-    for(var i = 0; i < this.dataset.length; i++) {
-      var company = {
-        rank: this.dataset[i].rank,
-        name: this.dataset[i].name,
-        country: this.dataset[i].country,
-        sales: this.dataset[i].sales,
-        profits: this.dataset[i].profits,
-        assets: this.dataset[i].assets,
-        market_value: this.dataset[i].market_value
-      }
-
-      this.companies.push(company);
-    }
+    this.join = this.filteredByYear.filter(function(d) { return (that.filteredByCountry.length > 0) ? that.filteredByCountry.indexOf(d) !== -1 : d; }).filter(function(d) { return (that.filteredByIndustry.length > 0) ? that.filteredByIndustry.indexOf(d) !== -1 : d; });
   }
 
   drawView() {
@@ -53,7 +70,7 @@ class InfoList {
 
     var columns = ["rank", "name", "country", "sales", "profits", "assets", "market_value"];
     var tr = this.tbody.selectAll("tr")
-      .data(this.dataset).enter().append("tr")
+      .data(this.join).enter().append("tr")
       .attr("class", "item");
     tr.selectAll("td")
       .data(function(row) { return columns.map(function(column) { return {column:column, value:row[column]}; }); })
