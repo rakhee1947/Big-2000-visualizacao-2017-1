@@ -62,10 +62,20 @@ class LineGraph {
     .attr("class", "tooltip")
     .style("opacity", 0);
     // .title
-    this.canvas.append("text")
+    if(this.filterName.length > 2 && this.filterName != "Global"){
+	   var quantity = this.filterName.length;
+	   var countryAdd = "country";
+	   if((quantity-2) > 1){ countryAdd = "countries"; }
+       this.canvas.append("text")
+      .attr("class", "title")
+      .attr("transform", "translate(" + ((this.w/2)+23) + "," + ((this.h/15)+5) + ")")
+      .text(this.filterName[0]+","+this.filterName[1]+" and "+(quantity-2)+" "+countryAdd);
+	}else{
+		this.canvas.append("text")
       .attr("class", "title")
       .attr("transform", "translate(" + ((this.w/2)+23) + "," + ((this.h/15)+5) + ")")
       .text(this.filterName);
+	}
 
     var that = this;
     this.yScale.domain(d3.extent(this.dataset, function(d) { return d[that.yAxis]; }));

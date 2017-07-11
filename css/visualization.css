@@ -12,6 +12,13 @@ text {
 	text-anchor: middle;
 }
 
+.total {
+	font-size: 12px;
+	fill: #000000;
+	text-anchor: middle;
+}
+
+
 /* Pie Chart */
 #pie .slice-text {
 	fill: #ffffff;

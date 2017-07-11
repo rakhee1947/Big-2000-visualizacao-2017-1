@@ -8,7 +8,6 @@ LIST:
 - Sort by different classifiers (rank, market value...)
 
 PIE CHART:
-- Gray Chart for Countries with zero companies
 - Filter for Individual Industries
 
 SCATTERPLOT:
