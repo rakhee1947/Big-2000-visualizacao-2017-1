@@ -48,7 +48,7 @@ text {
 }
 
 #list #header {
-	background-color: #d3d3d3;
+	background-color: #c2c2c2;
 }
 
 #list .item {
@@ -60,6 +60,10 @@ text {
 
 #list .item:hover {
 	background-color: #e4e4e4;
+}
+
+#list .item.active {
+	background-color: #d3d3d3;
 }
 
 /* Scatterplot */

@@ -57,7 +57,7 @@ class LineGraph {
     else this.filterCompany.splice(i,1);
 
     var that = this;
-    this.filteredByCompany = this.dataset.filter(function(d) { if(that.filterCompany.length === 0 || that.filterCompany.indexOf(d.company) !== -1) return d; });
+    this.filteredByCompany = this.dataset.filter(function(d) { if(that.filterCompany.length === 0 || that.filterCompany.indexOf(d.name) !== -1) return d; });
   }
 
   polishData() {

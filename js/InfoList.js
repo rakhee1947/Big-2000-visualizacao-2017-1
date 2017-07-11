@@ -66,6 +66,7 @@ class InfoList {
   }
 
   drawView() {
+    var that = this;
     this.tbody.selectAll(".item").remove();
 
     var columns = ["rank", "name", "country", "sales", "profits", "assets", "market_value"];
@@ -76,10 +77,17 @@ class InfoList {
       .data(function(row) { return columns.map(function(column) { return {column:column, value:row[column]}; }); })
       .enter().append("td")
       .text(function(d) { return d.value; });
+	tr.on('mousedown', function() { d3.event.preventDefault(); })
+      .on('dblclick', function(d) {
+        var activeClass = d3.select(this).classed("active"); // TROCAR DAQUI
+		d3.select(this).classed("active", !activeClass);
+		tr.classed("active", !tr.classed("active")); // ATÉ AQUI
+        that.nextPhase(d, that);
+      });
   }
 
   // AUXILIARY FUNCTIONS
   nextPhase(f, widget) {
-    widget.dispatch.call("selection", {caller:widget.id, filter:f.properties.name});
+    widget.dispatch.call("selection", {caller:widget.id, filter:f.name});
   }
 }
