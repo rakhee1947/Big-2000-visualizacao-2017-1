@@ -105,3 +105,21 @@ function setYear(year) {
     list.drawView();
     scatter.drawView();
 }
+
+function setScatterXAxis(xAxis) {
+	scatter.xAxis = xAxis;
+	scatter.polishData();
+	scatter.drawView();
+}
+
+function setScatterYAxis(yAxis) {
+	scatter.yAxis = yAxis;
+	scatter.polishData();
+	scatter.drawView();
+}
+
+function setLineYAxis(yAxis) {
+	line.yAxis = yAxis;
+	line.polishData();
+	line.drawView();
+}

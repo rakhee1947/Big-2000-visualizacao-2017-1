@@ -12,9 +12,103 @@
     <link rel="stylesheet" type="text/css" href="css/tooltip.css"></link>
 	<!-- Custom CSS by Victor Chen -->
 	<link rel="stylesheet" type="text/css" href="css/visualization.css"></link>
+	<!-- Custom Menu CSS by Victor Chen -->
+	<style>
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333;
+      }
+
+      li {
+        float: left;
+      }
+
+      li a, .dropbtn {
+        display: inline-block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+      }
+
+      li a:hover, .dropdown:hover .dropbtn {
+        background-color: red;
+      }
+
+      li.dropdown {
+        display: inline-block;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+      }
+
+      .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+      }
+
+      .dropdown-content a:hover {background-color: #f1f1f1}
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+	</style>
   </head>
 
   <body>
+    <ul>
+      <li class="dropdown" style="cursor:pointer">
+        <a class="dropbtn">Year</a>
+        <div class="dropdown-content">
+          <a onclick="setYear(2011)">2011</a>
+          <a onclick="setYear(2012)">2012</a>
+          <a onclick="setYear(2013)">2013</a>
+          <a onclick="setYear(2014)">2014</a>
+          <a onclick="setYear(2015)">2015</a>
+          <a onclick="setYear(2016)">2016</a>
+        </div>
+      </li>
+      <li class="dropdown" style="cursor:pointer">
+        <a class="dropbtn">Scatterplot X Axis</a>
+        <div class="dropdown-content">
+          <a onclick="setScatterXAxis('sales')">Sales</a>
+          <a onclick="setScatterXAxis('profits')">Profits</a>
+          <a onclick="setScatterXAxis('assets')">Assets</a>
+          <a onclick="setScatterXAxis('market_value')">MarketValue</a>
+        </div>
+      </li>
+      <li class="dropdown" style="cursor:pointer">
+        <a class="dropbtn">Scatterplot Y Axis</a>
+        <div class="dropdown-content">
+          <a onclick="setScatterYAxis('sales')">Sales</a>
+          <a onclick="setScatterYAxis('profits')">Profits</a>
+          <a onclick="setScatterYAxis('assets')">Assets</a>
+          <a onclick="setScatterYAxis('market_value')">MarketValue</a>
+        </div>
+      </li>
+      <li class="dropdown" style="cursor:pointer">
+        <a class="dropbtn">Line Chart Y Axis</a>
+        <div class="dropdown-content">
+          <a onclick="setLineYAxis('sales')">Sales</a>
+          <a onclick="setLineYAxis('profits')">Profits</a>
+          <a onclick="setLineYAxis('assets')">Assets</a>
+          <a onclick="setLineYAxis('market_value')">MarketValue</a>
+        </div>
+      </li>
+    </ul>
+
     <div align="center">
       <svg id="map"></svg>
       <svg id="pie"></svg>
