@@ -106,9 +106,9 @@ class WorldMap {
       })
       .on("dblclick", function(d) { 
         if(d3.select(this).style("stroke-width") != 3) {
-            d3.select(this).style("stroke-width",3).style("stroke","white");
+          d3.select(this).style("stroke-width",3).style("stroke","white");
         } else {
-            d3.select(this).style("stroke-width",1.).style("stroke","white");
+          d3.select(this).style("stroke-width",1.).style("stroke","white");
         }
         that.nextPhase(d, that);
       });
@@ -158,7 +158,7 @@ class WorldMap {
       .attr("font-size", this.h/40)
       .text("Scale");
   }
-  
+
   drawView() {
     var that = this;
     this.map

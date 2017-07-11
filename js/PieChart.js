@@ -44,8 +44,11 @@ class PieChart {
   polishData() {
     var that = this;
     this.industries = [];
-    var join = this.filteredByYear.filter(function(d) { return (that.filteredByCountry.length > 0) ? that.filteredByCountry.indexOf(d) !== -1 : d; });
     var quantity = [];
+
+    var join = this.dataset
+      .filter(function(d) { return (that.filteredByYear.length > 0) ? that.filteredByYear.indexOf(d) !== -1 : d; })
+      .filter(function(d) { return (that.filteredByCountry.length > 0) ? that.filteredByCountry.indexOf(d) !== -1 : d; });
     this.total = join.length;
 
     for(var i = 0; i < this.total; i++) {
@@ -76,8 +79,8 @@ class PieChart {
       .style("opacity", 0);
     var quantity = this.filter.length;
     var sub = this.canvas.append("text")
-        .attr("class", "title")
-        .attr("transform", "translate("+((this.w/2)+3)+","+((this.h/15)+5)+")");
+      .attr("class", "title")
+      .attr("transform", "translate("+((this.w/2)+3)+","+((this.h/15)+5)+")");
 
     if(quantity === 0) sub.text("Global");
     else if(quantity < 3) sub.text(this.filter);
@@ -126,10 +129,10 @@ class PieChart {
         })
         .on('mousedown', function() { d3.event.preventDefault(); })
         .on('dblclick', function(d) {
-          if(d3.select(this).style("stroke-width") != 3) {
-            d3.select(this).style("stroke-width",3).style("stroke","white");
+          if(d3.select(this).style("stroke-width") != 2) {
+            d3.select(this).style("stroke-width",2).style("stroke","white");
           } else {
-            d3.select(this).style("stroke-width",1.).style("stroke","white");
+            d3.select(this).style("stroke-width",1.).style("stroke","none");
           }
           div.transition().duration(200).style("opacity", 0);  
           div.html("");

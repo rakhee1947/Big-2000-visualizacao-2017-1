@@ -62,7 +62,11 @@ class InfoList {
   polishData() {
     var that = this;
     this.companies = [];
-    this.join = this.filteredByYear.filter(function(d) { return (that.filteredByCountry.length > 0) ? that.filteredByCountry.indexOf(d) !== -1 : d; }).filter(function(d) { return (that.filteredByIndustry.length > 0) ? that.filteredByIndustry.indexOf(d) !== -1 : d; });
+
+    this.join = this.dataset
+      .filter(function(d) { return (that.filteredByYear.length > 0) ? that.filteredByYear.indexOf(d) !== -1 : d; })
+      .filter(function(d) { return (that.filteredByCountry.length > 0) ? that.filteredByCountry.indexOf(d) !== -1 : d; })
+      .filter(function(d) { return (that.filteredByIndustry.length > 0) ? that.filteredByIndustry.indexOf(d) !== -1 : d; });
   }
 
   drawView() {
@@ -77,11 +81,8 @@ class InfoList {
       .data(function(row) { return columns.map(function(column) { return {column:column, value:row[column]}; }); })
       .enter().append("td")
       .text(function(d) { return d.value; });
-	tr.on('mousedown', function() { d3.event.preventDefault(); })
+    tr.on('mousedown', function() { d3.event.preventDefault(); })
       .on('dblclick', function(d) {
-        var activeClass = d3.select(this).classed("active"); // TROCAR DAQUI
-		d3.select(this).classed("active", !activeClass);
-		tr.classed("active", !tr.classed("active")); // ATÉ AQUI
         that.nextPhase(d, that);
       });
   }

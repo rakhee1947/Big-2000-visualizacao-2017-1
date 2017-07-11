@@ -8,12 +8,12 @@
 
     <title>Big 2000</title>
 
-	<!-- Tooltip CSS by Lucas Albuquerque -->
+    <!-- Tooltip CSS by Lucas Albuquerque -->
     <link rel="stylesheet" type="text/css" href="css/tooltip.css"></link>
-	<!-- Custom CSS by Victor Chen -->
-	<link rel="stylesheet" type="text/css" href="css/visualization.css"></link>
-	<!-- Custom Menu CSS by Victor Chen -->
-	<style>
+    <!-- Custom CSS by Victor Chen -->
+    <link rel="stylesheet" type="text/css" href="css/visualization.css"></link>
+    <!-- Custom Menu CSS by Victor Chen -->
+    <style>
       ul {
         list-style-type: none;
         margin: 0;
@@ -35,7 +35,7 @@
       }
 
       li a:hover, .dropdown:hover .dropbtn {
-        background-color: red;
+        background-color: #383838;
       }
 
       li.dropdown {
@@ -64,7 +64,7 @@
       .dropdown:hover .dropdown-content {
         display: block;
       }
-	</style>
+    </style>
   </head>
 
   <body>
@@ -72,6 +72,7 @@
       <svg id="map"></svg>
 
         <ul>
+          <li style="cursor:default"><a>Filters</a></li>
           <li class="dropdown" style="cursor:pointer">
             <a class="dropbtn">Year</a>
             <div class="dropdown-content">
@@ -108,6 +109,7 @@
               <a onclick="setLineYAxis('profits')">Profits</a>
               <a onclick="setLineYAxis('assets')">Assets</a>
               <a onclick="setLineYAxis('market_value')">MarketValue</a>
+              <a onclick="setLineYAxis('rank')">Rank</a>
             </div>
           </li>
         </ul>
@@ -118,13 +120,13 @@
       <svg id="line"></svg>
     <div>
 
-	<!-- D3 JS -->
+    <!-- D3 JS -->
     <script src="https://d3js.org/d3.v4.min.js"></script>
-	<!-- TopoJSON JS -->
+    <!-- TopoJSON JS -->
     <script src="https://d3js.org/topojson.v1.min.js"></script>
-	<!-- D3-TIP JS -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
-	<!-- JS Code by Dicksson Rammon, Lucas Albuquerque & Victor Chen -->
+    <!-- D3-TIP JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
+    <!-- JS Code by Dicksson Rammon, Lucas Albuquerque & Victor Chen -->
     <script src="js/WorldMap.js"></script>
     <script src="js/InfoList.js"></script>
     <script src="js/PieChart.js"></script>

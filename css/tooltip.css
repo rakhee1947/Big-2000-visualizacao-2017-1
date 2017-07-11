@@ -3,10 +3,6 @@
   text-anchor: middle;
 }
  
-.arc path {
-  stroke: #fff;
-}
- 
 .arc path:hover{
   opacity: 0.8
 }

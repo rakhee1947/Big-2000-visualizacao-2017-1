@@ -90,36 +90,36 @@ d3.json("https://raw.githubusercontent.com/vsychen/Big-2000-visualizacao-2017-1/
 });
 
 function setYear(year) {
-    map.applyFilterYear(year);
-    pie.applyFilterYear(year);
-    list.applyFilterYear(year);
-    scatter.applyFilterYear(year);
+  map.applyFilterYear(year);
+  pie.applyFilterYear(year);
+  list.applyFilterYear(year);
+  scatter.applyFilterYear(year);
 
-    map.polishData();
-    pie.polishData();
-    list.polishData();
-    scatter.polishData();
+  map.polishData();
+  pie.polishData();
+  list.polishData();
+  scatter.polishData();
 
-    map.drawView();
-    pie.drawView();
-    list.drawView();
-    scatter.drawView();
+  map.drawView();
+  pie.drawView();
+  list.drawView();
+  scatter.drawView();
 }
 
 function setScatterXAxis(xAxis) {
-	scatter.xAxis = xAxis;
-	scatter.polishData();
-	scatter.drawView();
+  scatter.xAxis = xAxis;
+  scatter.polishData();
+  scatter.drawView();
 }
 
 function setScatterYAxis(yAxis) {
-	scatter.yAxis = yAxis;
-	scatter.polishData();
-	scatter.drawView();
+  scatter.yAxis = yAxis;
+  scatter.polishData();
+  scatter.drawView();
 }
 
 function setLineYAxis(yAxis) {
-	line.yAxis = yAxis;
-	line.polishData();
-	line.drawView();
+  line.yAxis = yAxis;
+  line.polishData();
+  line.drawView();
 }

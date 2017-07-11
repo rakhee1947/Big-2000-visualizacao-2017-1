@@ -1,73 +1,73 @@
 text {
-	font-size: 8px;
-	font-family: verdana;
-	font-weight: bold;
-	cursor: default;
-	pointer-events: none;
+  font-size: 8px;
+  font-family: verdana;
+  font-weight: bold;
+  cursor: default;
+  pointer-events: none;
 }
 
 .title {
-	font-align: center;
-	align: center;
-	font-size: 12px;
-	fill: #000000;
-	text-anchor: middle;
+  font-align: center;
+  align: center;
+  font-size: 12px;
+  fill: #000000;
+  text-anchor: middle;
 }
 
 .total {
-	font-align: center;
-	align: center;
-	font-size: 12px;
-	fill: #000000;
-	text-anchor: middle;
+  font-align: center;
+  align: center;
+  font-size: 12px;
+  fill: #000000;
+  text-anchor: middle;
 }
 
 /* Pie Chart */
 #pie .slice-text {
-	fill: #ffffff;
+  fill: #ffffff;
 }
 
 .arc path {
-	stroke: none;
+  stroke: none;
 }
 
 /* List */
 #list {
-	float: right;
-	overflow-x: hidden;
-	overflow-y: scroll;
+  float: right;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 #list table {
-	padding: 0px 10px;
-	table-layout: fixed;
+  padding: 0px 10px;
+  table-layout: fixed;
     white-space: pre-wrap;
     word-break: keep-all;
-	border-collapse: collapse;
-	cursor: default;
+  border-collapse: collapse;
+  cursor: default;
 }
 
 #list #header {
-	background-color: #c2c2c2;
+  background-color: #c2c2c2;
 }
 
 #list .item {
-	text-align: center;
-	border: 5px solid #f0f8ff;
-	border-right: 0;
-	border-left: 0;
+  text-align: center;
+  border: 5px solid #f0f8ff;
+  border-right: 0;
+  border-left: 0;
 }
 
 #list .item:hover {
-	background-color: #e4e4e4;
+  background-color: #e4e4e4;
 }
 
 #list .item.active {
-	background-color: #d3d3d3;
+  background-color: #d3d3d3;
 }
 
 /* Scatterplot */
 .ball {
-	stroke: black;
-	stroke-width: 0.5px;
+  stroke: black;
+  stroke-width: 0.5px;
 }

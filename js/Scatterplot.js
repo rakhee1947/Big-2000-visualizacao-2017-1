@@ -70,7 +70,12 @@ class Scatterplot {
   polishData() {
     var that = this;
     this.companies = [];
-    this.join = this.filteredByYear.filter(function(d) { return (that.filteredByCompany.length > 0) ? that.filteredByCompany.indexOf(d) !== -1 : d; }).filter(function(d) { return (that.filteredByCountry.length > 0) ? that.filteredByCountry.indexOf(d) !== -1 : d; }).filter(function(d) { return (that.filteredByIndustry.length > 0) ? that.filteredByIndustry.indexOf(d) !== -1 : d; });
+
+    this.join = this.dataset
+      .filter(function(d) { return (that.filteredByYear.length > 0) ? that.filteredByYear.indexOf(d) !== -1 : d; })
+      .filter(function(d) { return (that.filteredByCompany.length > 0) ? that.filteredByCompany.indexOf(d) !== -1 : d; })
+      .filter(function(d) { return (that.filteredByCountry.length > 0) ? that.filteredByCountry.indexOf(d) !== -1 : d; })
+      .filter(function(d) { return (that.filteredByIndustry.length > 0) ? that.filteredByIndustry.indexOf(d) !== -1 : d; });
 
     for(var i = 0; i < this.dataset.length; i++) {
       var company = {
@@ -88,7 +93,7 @@ class Scatterplot {
 
   drawView() {
     this.canvas.select(".title").remove();
-	this.canvas.select(".total").remove();
+    this.canvas.select(".total").remove();
     this.g.selectAll(".axis").remove();
     this.g.selectAll(".ball").remove();
 
@@ -99,24 +104,24 @@ class Scatterplot {
     // .title
     var quantity = this.filterCountry.length;
     var subCountry = this.canvas.append("text")
-        .attr("class", "title")
-        .attr("transform", "translate("+((this.w/2)+43)+","+((this.h/15)+5)+")");
+      .attr("class", "title")
+      .attr("transform", "translate("+((this.w/2)+43)+","+((this.h/15)+5)+")");
 
     if(quantity === 0) subCountry.text("Global");
     else if(quantity < 3) subCountry.text(this.filterCountry);
     else if(quantity === 3) subCountry.text(this.filterCountry[0]+","+this.filterCountry[1]+" and 1 other country");
     else subCountry.text(this.filterCountry[0]+","+this.filterCountry[1]+" and "+(quantity-2)+" other countries");
 
-	quantity = this.filterIndustry.length;
+    quantity = this.filterIndustry.length;
     var subIndustry = this.canvas.append("text")
-        .attr("class", "total")
-        .attr("transform", "translate("+((this.w/2)+43)+","+((this.h/15)+25)+")");
+      .attr("class", "total")
+      .attr("transform", "translate("+((this.w/2)+43)+","+((this.h/15)+25)+")");
 
     if(quantity === 0) subIndustry.text("All Industries");
     else if(quantity < 3) subIndustry.text(this.filterIndustry);
     else if(quantity === 3) subIndustry.text(this.filterIndustry[0]+","+this.filterIndustry[1]+" and 1 other industry");
     else subIndustry.text(this.filterIndustry[0]+","+this.filterIndustry[1]+" and "+(quantity-2)+" other industries");
-	
+    
     var that = this;
     this.xScale.domain(d3.extent(this.join, function(d) { return d[that.xAxis]; }));
     this.yScale.domain(d3.extent(this.join, function(d) { return d[that.yAxis]; }));
