@@ -65,8 +65,8 @@ class InfoList {
 
     this.join = this.dataset
       .filter(function(d) { return (that.filteredByYear.length > 0) ? that.filteredByYear.indexOf(d) !== -1 : d; })
-      .filter(function(d) { return (that.filteredByCountry.length > 0) ? that.filteredByCountry.indexOf(d) !== -1 : d; })
-      .filter(function(d) { return (that.filteredByIndustry.length > 0) ? that.filteredByIndustry.indexOf(d) !== -1 : d; });
+      .filter(function(d) { return (that.filterCountry.length > 0 || that.filteredByCountry.length > 0) ? that.filteredByCountry.indexOf(d) !== -1 : d; })
+      .filter(function(d) { return (that.filterIndustry.length > 0 || that.filteredByIndustry.length > 0) ? that.filteredByIndustry.indexOf(d) !== -1 : d; });
   }
 
   drawView() {

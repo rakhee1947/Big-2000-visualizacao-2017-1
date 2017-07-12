@@ -48,7 +48,7 @@ class PieChart {
 
     var join = this.dataset
       .filter(function(d) { return (that.filteredByYear.length > 0) ? that.filteredByYear.indexOf(d) !== -1 : d; })
-      .filter(function(d) { return (that.filteredByCountry.length > 0) ? that.filteredByCountry.indexOf(d) !== -1 : d; });
+      .filter(function(d) { return (that.filter.length > 0 || that.filteredByCountry.length > 0) ? that.filteredByCountry.indexOf(d) !== -1 : d; });
     this.total = join.length;
 
     for(var i = 0; i < this.total; i++) {

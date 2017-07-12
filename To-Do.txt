@@ -3,19 +3,14 @@ WORLD MAP:
 - Change scale box
 
 LIST:
-- Filter for Individual Companies
 - Sort by different classifiers (rank, market value...)
 
 PIE CHART:
-- Filter for Individual Industries
 
 SCATTERPLOT:
 - Zoom & Pan
-- Menu to change Axis
 
 LINE CHART:
-- Menu to change Axis
 
 GENERAL:
-- If possible, dropdown menu for year selection
 - Brush Tools between lower-tier views
